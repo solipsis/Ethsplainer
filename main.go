@@ -11,7 +11,7 @@ type token struct {
 	Token       string `json:"token"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Flavor_Text string `json:"flavor_text"`
+	FlavorText  string `json:"flavor"`
 	Value       string `json:"value"`
 }
 
