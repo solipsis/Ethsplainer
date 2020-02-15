@@ -121,6 +121,7 @@ func genToken(val interface{}, f EthField) []token {
 	var (
 		title string
 		desc  string
+		long_desc	string
 		value string
 		tok   string
 	)
@@ -128,45 +129,54 @@ func genToken(val interface{}, f EthField) []token {
 	case NONCE:
 		title = "Nonce"
 		desc = "The nonce is an incrementing sequence number used to prevent message replay."
+		long_desc = ""
 		value = bytesToInt(body).String()
 	case GAS_PRICE:
 		title = "Gas Price"
 		desc = "The price of gas (in wei) that the sender is willing to pay."
+		long_desc = ""
 		value = bytesToInt(body).String()
 	case GAS_LIMIT:
 		title = "Gas Limit"
 		desc = "The maximum amount of gas the originator is willing to pay for this transaction."
+		long_desc = ""
 		value = bytesToInt(body).String()
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
 		desc = "The address of the user account or contract to interact with."
+		long_desc = ""
 		value = "Address or contract creation thing"
 	case VALUE:
 		title = "Value"
 		desc = "Amount of Eth in wei"
-		desc = "The amount of ether (in wei) to send to the recipient address."
+		long_desc = "The amount of ether (in wei) to send to the recipient address."
 		value = bytesToInt(body).String()
 	case DATA:
 		title = "Data"
 		desc = "Data being sent to a contract function. The first 4 bytes are known as the 'function selector'."
-		value = ""
+		long_desc = ""
+		value = ""  //TODO: Fill this in?
 	case SIG_V:
 		title = "Signature V"
 		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
+		long_desc = ""
 		value = tok
 	case SIG_R:
 		title = "Signature R"
-		desc = "Part of the signature pair (r,s). Represents the X-coordinate of an ephemeral public key created during the ECDSA signing process."
+		desc = "(r) part of the signature pair (r,s)."
+		long_desc = "Represents the X-coordinate of an ephemeral public key created during the ECDSA signing process."
 		value = tok
 	case SIG_S:
 		title = "Signature S"
-		desc = "Part of the signature pair (r,s). Generated using the ECDSA signing algorithm."
+		desc = "(s) part of the signature pair (r,s)."
+		long_desc = "Generated using the ECDSA signing algorithm."
 		value = tok
 	}
 	toks = append(toks, token{
 		Token:       hex.EncodeToString(body),
 		Description: desc,
+		Flavor Text:	long_desc,
 		Value:       value,
 		Title:       title,
 	})
