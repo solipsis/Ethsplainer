@@ -1,4 +1,4 @@
-# Ethsplainer
+# Ethsplainer 2.0
 ETHDenver 2020 Hackathon Project 
 
 ## Purpose
