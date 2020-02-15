@@ -23,8 +23,6 @@ import {
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
 
-const hoverColor = 'blue.500'
-
 const App = () => {
     return (
         <ThemeProvider>
@@ -72,33 +70,39 @@ const Home = () => {
 
     useEffect(() => {
         if(response) {
-            const description = get(find(response, r => r.token === displayToken), 'description', '')
-            setDisplayText(description)
+            const obj = find(response, r => r.token === displayToken)
+            const text = obj ? `${get(obj, 'title')}: ${get(obj, 'value')}` : 'Hover over transaction'
+            setDisplayText(text)
         }
     }, [displayToken])
 
     const pushToPinned = useCallback((token) => {
-        const newDescription = get(find(response, r => r.token === token), 'description')
+        const obj = find(response, r => r.token === token)
+        const newDescription = `${get(obj, 'title')}: ${get(obj, 'value')}`
+        const existingDescription = find(pinnedDescriptons, newDescription)
+        console.log({ pinnedDescriptons, newDescription, existingDescription })
+        if (existingDescription) return
         const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
         setPinnedDescriptions(newPinnedDescriptions)
     }, [response, pinnedDescriptons])
 
     const filterFromPinned = useCallback((key) => {
-        const newPinnedDescriptions = filter(pinnedDescriptons, (desc, index) => {
+        const newPinnedDescriptions = filter(pinnedDescriptons, (description, index) => {
             return index !== key
         })
         setPinnedDescriptions(newPinnedDescriptions)
     }, [response, pinnedDescriptons])
 
 
-    const TokenBox = ({ children: token }) => {
+    const TokenBox = ({ children: token, color }) => {
         return (
             <PseudoBox
                 as='text'
+                color={color}
                 onMouseEnter={() => setDisplayToken(token)}
                 onMouseLeave={() => setDisplayToken('')}
                 onClick={() => pushToPinned(token)}
-                _hover={{ color: hoverColor, cursor: 'pointer' }}
+                _hover={{ color: 'teal.900', cursor: 'pointer' }}
             >
                 {token}
             </PseudoBox>
@@ -112,7 +116,7 @@ const Home = () => {
     }, [response])
 
     return (
-        <Box bg='yellow.500' mx={-8} mt={-8} mb={-64}>
+        <Box bg='blue.200' mx={-8} mt={-8} mb={-64}>
             <Stack spacing={10} py={16} px={64}>
                 <Flex justify='space-around' align='center'>
                     <Image
@@ -136,17 +140,17 @@ const Home = () => {
                 </Flex>
                 <Flex wordBreak='break-all'>
                     <Text>
-                        <TokenBox>{version}</TokenBox>
-                        <TokenBox>{depth}</TokenBox>
-                        <TokenBox>{fingerprint}</TokenBox>
-                        <TokenBox>{index}</TokenBox>
-                        <TokenBox>{chaincode}</TokenBox>
-                        <TokenBox>{keydata}</TokenBox>
-                        <TokenBox>{checksum}</TokenBox>
+                        <TokenBox color='pink.500'>{version}</TokenBox>
+                        <TokenBox color='red.500'>{depth}</TokenBox>
+                        <TokenBox color='orange.500'>{fingerprint}</TokenBox>
+                        <TokenBox color='yellow.500'>{index}</TokenBox>
+                        <TokenBox color='green.500'>{chaincode}</TokenBox>
+                        <TokenBox color='blue.500'>{keydata}</TokenBox>
+                        <TokenBox color='purple.500'>{checksum}</TokenBox>
                     </Text>
                 </Flex>
                 <Text>
-                    {displayText}
+                    {displayText ? displayText : 'Hover over the transaction'}
                 </Text>
                 {pinnedDescriptons.map((description, index) => {
                     return (
