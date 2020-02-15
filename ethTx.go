@@ -72,7 +72,7 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	pre := token{
 		Token:       hex.EncodeToString(buf[0:l]),
 		Title:       "RLP Prefix",
-		Description: "Write me",
+		Description: "RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.",
 		Value:       hex.EncodeToString(buf[0:l]),
 	}
 	toks = append(toks, pre)
