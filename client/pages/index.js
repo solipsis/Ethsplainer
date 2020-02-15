@@ -58,13 +58,14 @@ const Home = () => {
     useEffect(() => {
         const getResponse = async () => {
             try {
+                await axios.options('http://localhost:8080')
                 const response = await axios.post('http://localhost:8080',
                     {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
                 )
                 console.log({ response })
             } catch (err) {
                 console.log({ err })
-                setResponse(mockResponse)
+                // setResponse(mockResponse)
             }
         }
         getResponse()
