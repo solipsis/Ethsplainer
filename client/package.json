@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "license": "DWTFYWPL",
   "private": true,
   "scripts": {
     "dev": "next dev",
