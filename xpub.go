@@ -11,9 +11,9 @@ type xpubParser struct{}
 
 func (x *xpubParser) understands(buf string) bool {
 	if _, err := tokenizeXPUB(buf); err != nil {
-		return true
+		return false
 	}
-	return false
+	return true
 }
 
 func (x *xpubParser) parse(buf string) ([]token, error) {
