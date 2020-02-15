@@ -119,7 +119,7 @@ const Home = () => {
             <Stack spacing={10} py={16} px={64}>
                 <Flex justify='space-around' align='center'>
                     <Image
-                        src='../public/assets/pegabufficorn.png'
+                        src='/assets/pegabufficorn.png'
                         size={32}
                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                     />
@@ -153,9 +153,17 @@ const Home = () => {
                 </Text>
                 {pinnedDescriptons.map((description, index) => {
                     return (
-                        <Text key={index} onClick={() => filterFromPinned(index)}>
-                            {description}
-                        </Text>
+                        <Flex
+                            justify='center'
+                            align='center'
+                            key={index}
+                            onClick={() => filterFromPinned(index)}
+                            border='1px solid'
+                            borderRadius={6}
+                            borderColor='green.800'
+                        >
+                            <Text>{description}</Text>
+                        </Flex>
                     )
                 })}
             </Stack>
