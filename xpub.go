@@ -42,43 +42,50 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	version := token{
 		Token:       hex.EncodeToString(xpub[0:4]),
 		Title:       "Version",
-		Description: "The verison gives information into what kind of key is encoded. This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
+		Description: "The verison gives information into what kind of key is encoded.",
+		Flavor_Text: "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).", 
 		Value:       "convert me to int",
 	}
 	depth := token{
 		Token:       hex.EncodeToString(xpub[4:5]),
 		Title:       "Depth",
-		Description: "The Depth byte tells you have what generation key this is. In other words it tells you how many parent keys or ancestors lead up to this key.",
+		Description: "The Depth byte tells you have what generation key this is.",
+		Flavor_Text: "In other words it tells you how many parent keys or ancestors lead up to this key.",
 		Value:       "Convert me to int",
 	}
 	fingerprint := token{
 		Token:       hex.EncodeToString(xpub[5:9]),
 		Title:       "Fingerprint",
 		Description: "The Fingerprint is used to verify the parent key.",
+		Flavor_Text: "",
 		Value:       hex.EncodeToString(xpub[5:9]),
 	}
 	index := token{
 		Token:       hex.EncodeToString(xpub[9:13]),
 		Title:       "Index",
-		Description: "The Index tells you what child of the parent key this is. Each parent can support up to 2^32 child keys.",
+		Description: "The Index tells you what child of the parent key this is.",
+		Flavor_Text: "Each parent can support up to 2^32 child keys.",
 		Value:       hex.EncodeToString(xpub[9:13]),
 	}
 	chaincode := token{
 		Token:       hex.EncodeToString(xpub[13:45]),
 		Title:       "Chaincode",
 		Description: "The Chaincode is used to deterministically derive child keys of this key.",
+		Flavor_Text: "",
 		Value:       hex.EncodeToString(xpub[13:45]),
 	}
 	keydata := token{
 		Token:       hex.EncodeToString(xpub[45:78]),
 		Title:       "Keydata",
-		Description: "The Keydata is the actual bytes of this extended key. If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
+		Description: "The Keydata is the actual bytes of this extended key.",
+		Flavor_Text: "If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
 		Value:       hex.EncodeToString(xpub[45:78]),
 	}
 	checksum := token{
 		Token:       hex.EncodeToString(xpub[78:82]),
 		Title:       "Checksum",
 		Description: "The Checksum is used to verify that the other data was encoded and transmitted properly.",
+		Flavor_Text: "",
 		Value:       hex.EncodeToString(xpub[78:82]),
 	}
 
