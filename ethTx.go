@@ -115,6 +115,8 @@ func genToken(val interface{}, f EthField) []token {
 	// strip bytes that were part of the RLP prefix
 	body := enc[prefixLen:]
 
+	fmt.Printf("prefixLen: %d, enc: %s, res: %s\n", prefixLen, hex.EncodeToString(enc), hex.EncodeToString(body))
+
 	// Add token for actual field
 	var (
 		title string
@@ -194,7 +196,7 @@ func addRLPToken(enc []byte) (*token, int) {
 		}
 		fmt.Printf("Prefix: %d, Result: %d\n", int(prefix), int(prefix-0x80))
 		//return tok, int(uint(prefix) - 0x80)
-		return tok, int(prefix) - 0x80
+		return tok, len(enc) - (int(prefix) - 0x80)
 	// rlp "string" with length > 55 bytes
 	case prefix < 0xC0:
 		// prefix is Length of the length field + 0xB7
