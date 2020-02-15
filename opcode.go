@@ -3,9 +3,18 @@ package main
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
+	"strings"
 )
 
-func parseOpcodes(s string) ([]token, error) {
+type opcodeParser struct{}
+
+func (o *opcodeParser) understands(s string) bool {
+	// TODO: not foolproof
+	return strings.HasPrefix(s, "6080")
+}
+
+func (o *opcodeParser) parse(s string) ([]token, error) {
 
 	buf, err := hex.DecodeString(s)
 	if err != nil {
@@ -500,8 +509,12 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x60:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
+			fmt.Println("xxx", len(t))
+			fmt.Println("PreIDX", idx)
+			fmt.Println(int(buf[idx]) - 0x60)
 			idx += 1 + int(buf[idx]) - 0x60
+			fmt.Println("PostIDX", idx)
 
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -511,7 +524,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x61:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -521,7 +534,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x62:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -531,7 +544,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x63:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -541,7 +554,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x64:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -551,7 +564,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x65:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -561,7 +574,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x66:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -571,7 +584,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x67:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -581,7 +594,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x68:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -591,7 +604,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x69:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -601,7 +614,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6a:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -611,7 +624,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6b:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -621,7 +634,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6c:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -631,7 +644,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6d:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -641,7 +654,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6e:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -651,7 +664,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x6f:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -661,7 +674,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x70:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -671,7 +684,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x71:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -681,7 +694,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x72:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -691,7 +704,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x73:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -701,7 +714,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x74:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -711,7 +724,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x75:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -721,7 +734,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x76:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -731,7 +744,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x77:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -741,7 +754,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x78:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -751,7 +764,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x79:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -761,7 +774,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7a:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -771,7 +784,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7b:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -781,7 +794,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7c:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -791,7 +804,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7d:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -801,7 +814,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7e:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),
@@ -811,7 +824,7 @@ func parseOpcodes(s string) ([]token, error) {
 			}
 
 		case 0x7f:
-			t := buf[idx : 1+idx+(int(buf[idx])-0x60)]
+			t := buf[idx : 2+idx+(int(buf[idx])-0x60)]
 			idx += 1 + int(buf[idx]) - 0x60
 			tok = token{
 				Token:       hex.EncodeToString(t),

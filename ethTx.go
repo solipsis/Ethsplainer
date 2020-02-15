@@ -94,20 +94,9 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	toks = append(toks, genToken(sigR.Bytes(), SIG_R)...)
 	toks = append(toks, genToken(sigS.Bytes(), SIG_S)...)
 
-	return toks, 
+	return toks,
 
-
-
-
-
-
-
-
-
-
-
-
-nil
+		nil
 }
 
 func genToken(val interface{}, f EthField) []token {
@@ -132,11 +121,11 @@ func genToken(val interface{}, f EthField) []token {
 
 	// Add token for actual field
 	var (
-		title string
-		desc  string
-		longDesc	string
-		value string
-		tok   string
+		title    string
+		desc     string
+		longDesc string
+		value    string
+		tok      string
 	)
 	switch f {
 	case NONCE:
@@ -169,7 +158,7 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Data"
 		desc = "Data being sent to a contract function. The first 4 bytes are known as the 'function selector'."
 		longDesc = ""
-		value = ""  //TODO: Fill this in?
+		value = "" //TODO: Fill this in?
 	case SIG_V:
 		title = "Signature V"
 		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
@@ -189,7 +178,7 @@ func genToken(val interface{}, f EthField) []token {
 	toks = append(toks, token{
 		Token:       hex.EncodeToString(body),
 		Description: desc,
-		FlavorText:  longDesc, 
+		FlavorText:  longDesc,
 		Value:       value,
 		Title:       title,
 	})

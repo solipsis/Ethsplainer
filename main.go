@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"math/big"
 	"net/http"
@@ -12,7 +11,7 @@ type token struct {
 	Token       string `json:"token"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	FlavorText  string `json:"flavor"`
+	FlavorText  string `json:"flavorText"`
 	Value       string `json:"value"`
 }
 
@@ -31,18 +30,20 @@ func main() {
 		xpub := decodeXPUB("xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz")
 	*/
 
-	//http.HandleFunc("/", http.HandlerFunc(handleData))
-	//http.ListenAndServe("localhost:8080", nil)
+	http.HandleFunc("/", http.HandlerFunc(handleData))
+	http.ListenAndServe("localhost:8080", nil)
 
 	//runner()
-	toks, err := parseOpcodes("60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029")
-	if err != nil {
-		panic(err)
-	}
+	//toks, err := parseOpcodes("60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029")
+	//if err != nil {
+	//panic(err)
+	//}
 
-	for _, tok := range toks {
-		fmt.Println(tok)
-	}
+	/*
+		for _, tok := range toks {
+			fmt.Println(tok)
+		}
+	*/
 }
 
 func handleData(w http.ResponseWriter, r *http.Request) {
@@ -62,6 +63,7 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 
 	eth := ethTxParser{}
 	xpub := xpubParser{}
+	op := opcodeParser{}
 
 	switch {
 
@@ -69,6 +71,9 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		toks, err = eth.parse(req.Input)
 	case xpub.understands(req.Input):
 		toks, err = xpub.parse(req.Input)
+	case op.understands(req.Input):
+		toks, err = op.parse(req.Input)
+
 	default:
 		w.Write([]byte("I don't know what to do with this, harass Dave"))
 		return
