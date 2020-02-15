@@ -176,7 +176,7 @@ func genToken(val interface{}, f EthField) []token {
 	toks = append(toks, token{
 		Token:       hex.EncodeToString(body),
 		Description: desc,
-		Flavor Text:	long_desc,
+		Flavor_Text: long_desc, 
 		Value:       value,
 		Title:       title,
 	})
