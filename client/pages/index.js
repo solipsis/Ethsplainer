@@ -12,6 +12,7 @@ import {
     Box,
     Button,
     Flex,
+    Icon,
     Image,
     Input,
     InputGroup,
@@ -29,6 +30,16 @@ const App = () => {
             <Home />
         </ThemeProvider>
     )
+}
+
+const rainbowColors = {
+    1: 'pink.400',
+    2: 'red.400',
+    3: 'orange.400',
+    4: 'yellow.400',
+    5: 'green.400',
+    6: 'blue.400',
+    7: 'purple.400'
 }
 
 const Home = () => {
@@ -139,30 +150,43 @@ const Home = () => {
                 </Flex>
                 <Flex wordBreak='break-all'>
                     <Text>
-                        <TokenBox color='pink.400'>{version}</TokenBox>
-                        <TokenBox color='red.400'>{depth}</TokenBox>
-                        <TokenBox color='orange.400'>{fingerprint}</TokenBox>
-                        <TokenBox color='yellow.400'>{index}</TokenBox>
-                        <TokenBox color='green.400'>{chaincode}</TokenBox>
-                        <TokenBox color='blue.400'>{keydata}</TokenBox>
-                        <TokenBox color='purple.400'>{checksum}</TokenBox>
+                        <TokenBox color={rainbowColors[1]}>{version}</TokenBox>
+                        <TokenBox color={rainbowColors[2]}>{depth}</TokenBox>
+                        <TokenBox color={rainbowColors[3]}>{fingerprint}</TokenBox>
+                        <TokenBox color={rainbowColors[4]}>{index}</TokenBox>
+                        <TokenBox color={rainbowColors[5]}>{chaincode}</TokenBox>
+                        <TokenBox color={rainbowColors[6]}>{keydata}</TokenBox>
+                        <TokenBox color={rainbowColors[7]}>{checksum}</TokenBox>
                     </Text>
                 </Flex>
-                <Text>
-                    {displayText ? displayText : 'Hover over the transaction'}
-                </Text>
+                <Flex
+                    justify='space-between'
+                    key={index}
+                    border='1px solid'
+                    borderRadius={6}
+                    borderColor='red.500'
+                >
+                    <Text pl={4}>
+                        {displayText ? displayText : 'Hover over the transaction'}
+                    </Text>
+                </Flex>
                 {pinnedDescriptons.map((description, index) => {
                     return (
                         <Flex
-                            justify='center'
-                            align='center'
+                            justify='space-between'
                             key={index}
-                            onClick={() => filterFromPinned(index)}
                             border='1px solid'
                             borderRadius={6}
-                            borderColor='green.800'
+                            borderColor={rainbowColors[index + 1]}
                         >
-                            <Text>{description}</Text>
+                            <Text pl={4}>{description}</Text>
+                            <PseudoBox pr={1} _hover={{ cursor: 'pointer' }}>
+                                <Icon
+                                    onClick={() => filterFromPinned(index)}
+                                    name='close'
+                                    size='11px'
+                                />
+                            </PseudoBox>
                         </Flex>
                     )
                 })}
