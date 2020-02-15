@@ -163,17 +163,17 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Signature V"
 		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
 		longDesc = ""
-		value = tok
+		value = "0x" + tok
 	case SIG_R:
 		title = "Signature R"
 		desc = "(r) part of the signature pair (r,s)."
 		longDesc = "Represents the X-coordinate of an ephemeral public key created during the ECDSA signing process."
-		value = tok
+		value = "0x" + tok
 	case SIG_S:
 		title = "Signature S"
 		desc = "(s) part of the signature pair (r,s)."
 		longDesc = "Generated using the ECDSA signing algorithm."
-		value = tok
+		value = "0x" + tok
 	}
 	toks = append(toks, token{
 		Token:       hex.EncodeToString(body),
@@ -204,11 +204,9 @@ func addRLPToken(enc []byte) (*token, int) {
 		tok := &token{
 			Token:       hex.EncodeToString([]byte{prefix}),
 			Title:       "RLP Length Prefix",
-			Description: "RLP Length Prefix. The next field is an RLP 'string' of length 0x%x - 0x80.",
+			Description: fmt.Sprintf("RLP Length Prefix. The next field is an RLP 'string' of length 0x%x (0x%x - 0x80)", prefix-0x80, prefix),
 			Value:       hex.EncodeToString([]byte{prefix}),
 		}
-		fmt.Printf("Prefix: %d, Result: %d\n", int(prefix), int(prefix-0x80))
-		//return tok, int(uint(prefix) - 0x80)
 		return tok, len(enc) - (int(prefix) - 0x80)
 	// rlp "string" with length > 55 bytes
 	case prefix < 0xC0:
@@ -219,7 +217,7 @@ func addRLPToken(enc []byte) (*token, int) {
 		tok := &token{
 			Token:       hex.EncodeToString(enc[:1+l]),
 			Title:       "RLP Length Prefix",
-			Description: "The first byte (0x%x-0x80) tells us the length of the length (0x%s) of the next field.",
+			Description: fmt.Sprintf("This is an RLP 'string' with length > 55 bytes.\nThe first byte (0x%x-0xB7) tells us the length of the length (%d bytes).\nThe actual field length is %s bytes (0x%x)", prefix, l, bytesToInt(fieldLen).String(), fieldLen),
 			Value:       hex.EncodeToString(enc[:1+l]),
 		}
 		return tok, 1 + len(fieldLen)
