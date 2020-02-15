@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"math/big"
 	"net/http"
 )
 
-//a
 type token struct {
 	Token       string `json:"token"`
 	Title       string `json:"title"`
@@ -53,6 +53,8 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
+
+	fmt.Printf("Received: %+v\n", req)
 
 	var toks []token
 
