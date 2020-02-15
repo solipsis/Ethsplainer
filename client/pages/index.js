@@ -153,9 +153,17 @@ const Home = () => {
                 </Text>
                 {pinnedDescriptons.map((description, index) => {
                     return (
-                        <Text key={index} onClick={() => filterFromPinned(index)}>
-                            {description}
-                        </Text>
+                        <Flex
+                            justify='center'
+                            align='center'
+                            key={index}
+                            onClick={() => filterFromPinned(index)}
+                            border='1px solid'
+                            borderRadius={6}
+                            borderColor='green.800'
+                        >
+                            <Text>{description}</Text>
+                        </Flex>
                     )
                 })}
             </Stack>
