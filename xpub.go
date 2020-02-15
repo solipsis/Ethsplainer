@@ -43,15 +43,15 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 		Token:       hex.EncodeToString(xpub[0:4]),
 		Title:       "Version",
 		Description: "The verison gives information into what kind of key is encoded.",
-		FlavorText:	 "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).", 
-		Value:       "convert me to int",
+		FlavorText:  "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
+		Value:       bytesToInt(xpub[0:4]).String(),
 	}
 	depth := token{
 		Token:       hex.EncodeToString(xpub[4:5]),
 		Title:       "Depth",
 		Description: "The Depth byte tells you have what generation key this is.",
 		FlavorText:  "In other words it tells you how many parent keys or ancestors lead up to this key.",
-		Value:       "Convert me to int",
+		Value:       bytesToInt(xpub[4:5]).String(),
 	}
 	fingerprint := token{
 		Token:       hex.EncodeToString(xpub[5:9]),
@@ -65,7 +65,7 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 		Title:       "Index",
 		Description: "The Index tells you what child of the parent key this is.",
 		FlavorText:  "Each parent can support up to 2^32 child keys.",
-		Value:       hex.EncodeToString(xpub[9:13]),
+		Value:       bytesToInt(xpub[9:13]).String(),
 	}
 	chaincode := token{
 		Token:       hex.EncodeToString(xpub[13:45]),
