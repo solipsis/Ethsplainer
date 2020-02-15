@@ -1,18 +1,17 @@
 package main
 
 import (
-	"encoding/hex"
 	"encoding/json"
-	"fmt"
+	"log"
+	"math/big"
 	"net/http"
-
-	"github.com/btcsuite/btcutil/base58"
 )
 
 type token struct {
 	Token       string `json:"token"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	FlavorText  string `json:"flavor"`
 	Value       string `json:"value"`
 }
 
@@ -26,23 +25,6 @@ type parser interface {
 	parse(string) ([]token, error)
 }
 
-type xpubParser struct{}
-
-func (x *xpubParser) understands(buf string) bool {
-	if _, err := tokenizeXPUB(buf); err != nil {
-		return true
-	}
-	return false
-}
-
-func (x *xpubParser) parse(buf string) ([]token, error) {
-	toks, err := tokenizeXPUB(buf)
-	if err != nil {
-		return nil, err
-	}
-	return toks, nil
-}
-
 func main() {
 	/*
 		xpub := decodeXPUB("xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz")
@@ -53,6 +35,9 @@ func main() {
 }
 
 func handleData(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	dec := json.NewDecoder(r.Body)
 	req := request{}
@@ -62,10 +47,24 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	toks, err := tokenizeXPUB(req.Input)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
+	var toks []token
+
+	eth := ethTxParser{}
+	xpub := xpubParser{}
+
+	switch {
+
+	case eth.understands(req.Input):
+		toks, err = eth.parse(req.Input)
+	case xpub.understands(req.Input):
+		toks, err = xpub.parse(req.Input)
+	default:
+		w.Write([]byte("I don't know what to do with this, harass Dave"))
 		return
+	}
+
+	if err != nil {
+		log.Fatalf("Parse error: %v\n", err)
 	}
 
 	res, err := json.MarshalIndent(toks, "", "	")
@@ -75,63 +74,6 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func decodeXPUB(xpub string) []byte {
-	return base58.Decode(xpub)
-}
-
-func tokenizeXPUB(encoded string) ([]token, error) {
-
-	// decode from base58
-	xpub := decodeXPUB(string(encoded))
-
-	if len(xpub) < 82 {
-		return nil, fmt.Errorf("%s is not a valid xpub", encoded)
-	}
-
-	// TODO: Probably add a lot of 0x prefixes on value?
-
-	version := token{
-		Token:       hex.EncodeToString(xpub[0:4]),
-		Title:       "Version",
-		Description: "Write me",
-		Value:       "convert me to int",
-	}
-	depth := token{
-		Token:       hex.EncodeToString(xpub[4:5]),
-		Title:       "Depth",
-		Description: "Write me",
-		Value:       "Convert me to int",
-	}
-	fingerprint := token{
-		Token:       hex.EncodeToString(xpub[5:9]),
-		Title:       "Fingerprint",
-		Description: "Write me",
-		Value:       hex.EncodeToString(xpub[5:9]),
-	}
-	index := token{
-		Token:       hex.EncodeToString(xpub[9:13]),
-		Title:       "Index",
-		Description: "Write me",
-		Value:       hex.EncodeToString(xpub[9:13]),
-	}
-	chaincode := token{
-		Token:       hex.EncodeToString(xpub[13:45]),
-		Title:       "Chaincode",
-		Description: "Write me",
-		Value:       hex.EncodeToString(xpub[13:45]),
-	}
-	keydata := token{
-		Token:       hex.EncodeToString(xpub[45:78]),
-		Title:       "Keydata",
-		Description: "Write me",
-		Value:       hex.EncodeToString(xpub[45:78]),
-	}
-	checksum := token{
-		Token:       hex.EncodeToString(xpub[78:82]),
-		Title:       "Checksum",
-		Description: "Write me",
-		Value:       hex.EncodeToString(xpub[78:82]),
-	}
-
-	return []token{version, depth, fingerprint, index, chaincode, keydata, checksum}, nil
+func bytesToInt(buf []byte) *big.Int {
+	return big.NewInt(0).SetBytes(buf)
 }
