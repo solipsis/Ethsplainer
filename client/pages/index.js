@@ -1,88 +1,163 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import axios from 'axios'
+import {
+    concat,
+    filter,
+    find,
+    get
+} from 'lodash'
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    Input,
+    InputGroup,
+    InputRightElement,
+    PseudoBox,
+    Stack,
+    Text,
+    ThemeProvider
+} from '@chakra-ui/core'
+import mockResponse from '../mock/response.json'
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const hoverColor = 'blue.500'
 
-    <Nav />
+const App = () => {
+    return (
+        <ThemeProvider>
+            <Home />
+        </ThemeProvider>
+    )
+}
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+const Home = () => {
+    const [response, setResponse] = useState()
+    const [version, setVersion] = useState()
+    const [depth, setDepth] = useState()
+    const [fingerprint, setFingerprint] = useState()
+    const [index, setIndex] = useState()
+    const [chaincode, setChaincode] = useState()
+    const [keydata, setKeydata] = useState()
+    const [checksum, setChecksum] = useState()
+    const [displayToken, setDisplayToken] = useState('')
+    const [displayText, setDisplayText] = useState('')
+    const [pinnedDescriptons, setPinnedDescriptions] = useState([])
 
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
-    </div>
+    useEffect(() => {
+        const getResponse = async () => {
+            try {
+                const response = await axios.post('http://localhost:8080',
+                    {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
+                )
+                console.log({ response })
+            } catch (err) {
+                console.log({ err })
+                setResponse(mockResponse)
+            }
+        }
+        getResponse()
+        if (response) {
+            setVersion(getTokenFromTitle('Version'))
+            setDepth(getTokenFromTitle('Depth'))
+            setFingerprint(getTokenFromTitle('Fingerprint'))
+            setIndex(getTokenFromTitle('Index'))
+            setChaincode(getTokenFromTitle('Chaincode'))
+            setKeydata(getTokenFromTitle('Keydata'))
+            setChecksum(getTokenFromTitle('Checksum'))
+        }
+    }, [response])
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+    useEffect(() => {
+        if(response) {
+            const description = get(find(response, r => r.token === displayToken), 'description', '')
+            setDisplayText(description)
+        }
+    }, [displayToken])
 
-export default Home
+    const pushToPinned = useCallback((token) => {
+        const newDescription = get(find(response, r => r.token === token), 'description')
+        const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
+        setPinnedDescriptions(newPinnedDescriptions)
+    }, [response, pinnedDescriptons])
+
+    const filterFromPinned = useCallback((key) => {
+        const newPinnedDescriptions = filter(pinnedDescriptons, (desc, index) => {
+            return index !== key
+        })
+        setPinnedDescriptions(newPinnedDescriptions)
+    }, [response, pinnedDescriptons])
+
+
+    const TokenBox = ({ children: token }) => {
+        return (
+            <PseudoBox
+                as='text'
+                onMouseEnter={() => setDisplayToken(token)}
+                onMouseLeave={() => setDisplayToken('')}
+                onClick={() => pushToPinned(token)}
+                _hover={{ color: hoverColor, cursor: 'pointer' }}
+            >
+                {token}
+            </PseudoBox>
+        )
+    }
+
+    const getTokenFromTitle = useCallback((title) => {
+        if(response) {
+            return response.find(r => r.title === title).token
+        }
+    }, [response])
+
+    return (
+        <Box bg='yellow.500' mx={-8} mt={-8} mb={-64}>
+            <Stack spacing={10} py={16} px={64}>
+                <Flex justify='space-around' align='center'>
+                    <Image
+                        src='../public/assets/pegabufficorn.png'
+                        size={32}
+                        fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
+                    />
+                    <InputGroup>
+                        <Input
+                            w={500}
+                            varient='filled'
+                            placeholder='What can I help you understand?'
+                            borderRadius={5}
+                        />
+                        <InputRightElement>
+                            <Button varientColor='blue' mt={1} mr={1}>
+                                Send
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </Flex>
+                <Flex wordBreak='break-all'>
+                    <Text>
+                        <TokenBox>{version}</TokenBox>
+                        <TokenBox>{depth}</TokenBox>
+                        <TokenBox>{fingerprint}</TokenBox>
+                        <TokenBox>{index}</TokenBox>
+                        <TokenBox>{chaincode}</TokenBox>
+                        <TokenBox>{keydata}</TokenBox>
+                        <TokenBox>{checksum}</TokenBox>
+                    </Text>
+                </Flex>
+                <Text>
+                    {displayText}
+                </Text>
+                {pinnedDescriptons.map((description, index) => {
+                    return (
+                        <Text key={index} onClick={() => filterFromPinned(index)}>
+                            {description}
+                        </Text>
+                    )
+                })}
+            </Stack>
+        </Box>
+    )
+}
+
+export default App

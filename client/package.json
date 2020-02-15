@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "license": "DWTFYWPL",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +14,7 @@
     "@emotion/styled": "^10.0.27",
     "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
+    "lodash": "^4.17.15",
     "next": "9.2.1",
     "react": "16.12.0",
     "react-dom": "16.12.0"
