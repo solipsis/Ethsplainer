@@ -119,7 +119,7 @@ const Home = () => {
             <Stack spacing={10} py={16} px={64}>
                 <Flex justify='space-around' align='center'>
                     <Image
-                        src='../public/assets/pegabufficorn.png'
+                        src='/assets/pegabufficorn.png'
                         size={32}
                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                     />
