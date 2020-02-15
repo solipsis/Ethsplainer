@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/btcsuite/btcutil/base58"
@@ -62,11 +63,22 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	toks, err := tokenizeXPUB(req.Input)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
+	eth := ethTxParser{}
+	if !eth.understands(req.Input) {
+		panic("why no eth understando?")
 	}
+	toks, err := eth.parse(req.Input)
+	if err != nil {
+		log.Fatalf("Parse error: %v\n", err)
+	}
+
+	/*
+		toks, err := tokenizeXPUB(req.Input)
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+	*/
 
 	res, err := json.MarshalIndent(toks, "", "	")
 	if err != nil {

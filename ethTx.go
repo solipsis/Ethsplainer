@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/hex"
+	"fmt"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/core/types"
@@ -90,8 +91,8 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	toks = append(toks, genToken(tx.Data(), DATA)...)
 	sigV, sigR, sigS := tx.RawSignatureValues()
 	toks = append(toks, genToken(sigV.Bytes(), SIG_V)...)
-	toks = append(toks, genToken(sigR.Bytes, SIG_R)...)
-	toks = append(toks, genToken(sigS.Bytes, SIG_S)...)
+	toks = append(toks, genToken(sigR.Bytes(), SIG_R)...)
+	toks = append(toks, genToken(sigS.Bytes(), SIG_S)...)
 
 	return toks, nil
 }
@@ -111,19 +112,16 @@ func genToken(val interface{}, f EthField) []token {
 		toks = append(toks, *rlpTok)
 	}
 
-	// Add token for actual field
+	// strip bytes that were part of the RLP prefix
+	body := enc[prefixLen:]
 
+	// Add token for actual field
 	var (
 		title string
 		desc  string
 		value string
 		tok   string
 	)
-
-	// strip bytes that were part of the RLP prefix
-	body := enc[prefixLen:]
-	tok = hex.EncodeToString(body)
-
 	switch f {
 	case NONCE:
 		title = "Nonce"
@@ -137,11 +135,40 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Gas Limit"
 		desc = "Gas Limit Description"
 		value = "Convert me to int"
-
+	case RECIPIENT:
+		// TODO: edgecase for contract create
+		title = "Recipient"
+		desc = "To field description"
+		value = "Address or contract creation thing"
+	case VALUE:
+		title = "Value"
+		desc = "Amount of Eth in wei"
+		value = "Convert me to int"
+	case DATA:
+		title = "Data"
+		desc = "Data / contract description stuff"
+		value = ""
+	case SIG_V:
+		title = "Signature V"
+		desc = "Sig_v description"
+		value = tok
+	case SIG_R:
+		title = "Signature R"
+		desc = "Sig_r description"
+		value = tok
+	case SIG_S:
+		title = "Signature S"
+		desc = "Sig_s description"
+		value = tok
 	}
+	toks = append(toks, token{
+		Token:       hex.EncodeToString(body),
+		Description: desc,
+		Value:       value,
+		Title:       title,
+	})
 
 	return toks
-
 }
 
 // create a token for the rlp prefix and return the size of the prefix
@@ -165,11 +192,13 @@ func addRLPToken(enc []byte) (*token, int) {
 			Description: "FILL me out",
 			Value:       hex.EncodeToString([]byte{prefix}),
 		}
-		return tok, int(prefix) - 0xb7
+		fmt.Printf("Prefix: %d, Result: %d\n", int(prefix), int(prefix-0x80))
+		//return tok, int(uint(prefix) - 0x80)
+		return tok, int(prefix) - 0x80
 	// rlp "string" with length > 55 bytes
 	case prefix < 0xC0:
 		// prefix is Length of the length field + 0xB7
-		l := prefix - 0xb7
+		l := prefix - 0xB7
 		fieldLen := enc[1 : 1+l]
 
 		tok := &token{
