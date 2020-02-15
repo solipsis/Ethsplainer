@@ -128,15 +128,15 @@ func genToken(val interface{}, f EthField) []token {
 	case NONCE:
 		title = "Nonce"
 		desc = "Nonce description"
-		value = "Convert me to int"
+		value = bytesToInt(body).String()
 	case GAS_PRICE:
 		title = "Gas Price"
 		desc = "Gas Price Description"
-		value = "Convert me to int"
+		value = bytesToInt(body).String()
 	case GAS_LIMIT:
 		title = "Gas Limit"
 		desc = "Gas Limit Description"
-		value = "Convert me to int"
+		value = bytesToInt(body).String()
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
@@ -145,7 +145,7 @@ func genToken(val interface{}, f EthField) []token {
 	case VALUE:
 		title = "Value"
 		desc = "Amount of Eth in wei"
-		value = "Convert me to int"
+		value = bytesToInt(body).String()
 	case DATA:
 		title = "Data"
 		desc = "Data / contract description stuff"

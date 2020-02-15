@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"math/big"
 	"net/http"
 )
 
@@ -70,4 +71,8 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	w.Write(res)
+}
+
+func bytesToInt(buf []byte) *big.Int {
+	return big.NewInt(0).SetBytes(buf)
 }
