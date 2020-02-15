@@ -127,40 +127,41 @@ func genToken(val interface{}, f EthField) []token {
 	switch f {
 	case NONCE:
 		title = "Nonce"
-		desc = "Nonce description"
+		desc = "The nonce is an incrementing sequence number used to prevent message replay."
 		value = bytesToInt(body).String()
 	case GAS_PRICE:
 		title = "Gas Price"
-		desc = "Gas Price Description"
+		desc = "The price of gas (in wei) that the sender is willing to pay."
 		value = bytesToInt(body).String()
 	case GAS_LIMIT:
 		title = "Gas Limit"
-		desc = "Gas Limit Description"
+		desc = "The maximum amount of gas the originator is willing to pay for this transaction."
 		value = bytesToInt(body).String()
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
-		desc = "To field description"
+		desc = "The address of the user account or contract to interact with."
 		value = "Address or contract creation thing"
 	case VALUE:
 		title = "Value"
 		desc = "Amount of Eth in wei"
+		desc = "The amount of ether (in wei) to send to the recipient address."
 		value = bytesToInt(body).String()
 	case DATA:
 		title = "Data"
-		desc = "Data / contract description stuff"
+		desc = "Data being sent to a contract function. The first 4 bytes are known as the 'function selector'."
 		value = ""
 	case SIG_V:
 		title = "Signature V"
-		desc = "Sig_v description"
+		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
 		value = tok
 	case SIG_R:
 		title = "Signature R"
-		desc = "Sig_r description"
+		desc = "Part of the signature pair (r,s). Represents the X-coordinate of an ephemeral public key created during the ECDSA signing process."
 		value = tok
 	case SIG_S:
 		title = "Signature S"
-		desc = "Sig_s description"
+		desc = "Part of the signature pair (r,s). Generated using the ECDSA signing algorithm."
 		value = tok
 	}
 	toks = append(toks, token{
@@ -191,7 +192,7 @@ func addRLPToken(enc []byte) (*token, int) {
 		tok := &token{
 			Token:       hex.EncodeToString([]byte{prefix}),
 			Title:       "RLP Length Prefix",
-			Description: "FILL me out",
+			Description: "RLP Length Prefix. The next field is an RLP 'string' of length 0x%x - 0x80.",
 			Value:       hex.EncodeToString([]byte{prefix}),
 		}
 		fmt.Printf("Prefix: %d, Result: %d\n", int(prefix), int(prefix-0x80))
@@ -206,7 +207,7 @@ func addRLPToken(enc []byte) (*token, int) {
 		tok := &token{
 			Token:       hex.EncodeToString(enc[:1+l]),
 			Title:       "RLP Length Prefix",
-			Description: "Length of length fill me out blah blah",
+			Description: "The first byte (0x%x-0x80) tells us the length of the length (0x%s) of the next field.",
 			Value:       hex.EncodeToString(enc[:1+l]),
 		}
 		return tok, 1 + len(fieldLen)
