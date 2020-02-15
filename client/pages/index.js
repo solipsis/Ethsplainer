@@ -41,6 +41,7 @@ const rainbowColors = {
     6: 'blue.400',
     7: 'purple.400'
 }
+//     {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
 
 const Home = () => {
     const [response, setResponse] = useState()
@@ -54,15 +55,24 @@ const Home = () => {
     const [displayToken, setDisplayToken] = useState('')
     const [displayText, setDisplayText] = useState('')
     const [pinnedDescriptons, setPinnedDescriptions] = useState([])
+    const [input, setInput] = useState('')
+
+
+    const handleChange = event => setInput(event.target.value)
 
     useEffect(() => {
         const getResponse = async () => {
             try {
                 await axios.options('http://localhost:8080')
-                const response = await axios.post('http://localhost:8080',
-                    {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
-                )
-                console.log({ response })
+                // const response = await axios.post('http://localhost:8080',
+                //     {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
+                // )
+                // if (xpub) {
+
+                // }
+                // const response = await axios.post('http://localhost:8080', {"input": xPub})
+                // console.log({ response })
+                // setResponse(get(response, 'data'))
             } catch (err) {
                 console.log({ err })
                 // setResponse(mockResponse)
@@ -122,13 +132,25 @@ const Home = () => {
 
     const getTokenFromTitle = useCallback((title) => {
         if(response) {
-            return response.find(r => r.title === title).token
+            return get(find(response, r => r.title === title), 'token')
         }
     }, [response])
 
+    const getTxDetails = useCallback(async (input) => {
+        try {
+            console.log({ input })
+            const response = await axios.post('http://localhost:8080', { "input": input.toString() })
+            console.log({ responseData: response.data})
+            setResponse(get(response, 'data'))
+        } catch (err) {
+            console.log(err)
+        }
+    }, [input])
+
     return (
-        <Box bg='blue.200' mx={-8} mt={-8} mb={-64}>
+        <Box bg='blue.900' mx={-8} mt={-8} mb={-64}>
             <Stack spacing={10} py={16} px={64}>
+                <Text textAlign='center' color='blue.500' fontSize={64} fontWeight='bold'>EthSplainer 2.0</Text>
                 <Flex justify='space-around' align='center'>
                     <Image
                         src='/assets/pegabufficorn.png'
@@ -141,16 +163,18 @@ const Home = () => {
                             varient='filled'
                             placeholder='What can I help you understand?'
                             borderRadius={5}
+                            onChange={handleChange}
+                            value={input}
                         />
                         <InputRightElement>
-                            <Button varientColor='blue' mt={1} mr={1}>
-                                Send
+                            <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
+                                Get
                             </Button>
                         </InputRightElement>
                     </InputGroup>
                 </Flex>
                 <Flex wordBreak='break-all'>
-                    <Text>
+                    <Text fonstSize={24}>
                         <TokenBox color={rainbowColors[1]}>{version}</TokenBox>
                         <TokenBox color={rainbowColors[2]}>{depth}</TokenBox>
                         <TokenBox color={rainbowColors[3]}>{fingerprint}</TokenBox>
