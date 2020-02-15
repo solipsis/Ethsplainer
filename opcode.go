@@ -1133,7 +1133,7 @@ func (o *opcodeParser) parse(s string) ([]token, error) {
 			tok = token{
 				Token:       "0xb0",
 				Title:       "JUMPTO",
-				Description: "Tentative [libevmasm has different numbers](https://github.com/ethereum/solidity/blob/c61610302aa2bfa029715b534719d25fe3949059/libevmasm/Instruction.h#L176)",
+				Description: "Tentative [libevmasm has different numbers]",
 				Value:       "0xb0",
 			}
 
