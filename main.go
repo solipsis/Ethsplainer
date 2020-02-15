@@ -93,3 +93,58 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 func bytesToInt(buf []byte) *big.Int {
 	return big.NewInt(0).SetBytes(buf)
 }
+
+// sample response
+/*
+[
+	{
+		"token": "0488b21e",
+		"title": "Version",
+		"description": "The verison gives information into what kind of key is encoded.",
+		"flavorText": "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
+		"value": "76067358"
+	},
+	{
+		"token": "03",
+		"title": "Depth",
+		"description": "The Depth byte tells you have what generation key this is.",
+		"flavorText": "In other words it tells you how many parent keys or ancestors lead up to this key.",
+		"value": "3"
+	},
+	{
+		"token": "6f6a84cf",
+		"title": "Fingerprint",
+		"description": "The Fingerprint is used to verify the parent key.",
+		"flavorText": "",
+		"value": "6f6a84cf"
+	},
+	{
+		"token": "80000000",
+		"title": "Index",
+		"description": "The Index tells you what child of the parent key this is.",
+		"flavorText": "Each parent can support up to 2^32 child keys.",
+		"value": "2147483648"
+	},
+	{
+		"token": "92f0a924c8c48ed87d6385dff36f9261ff2d1d92739db0c2c78ef0ea830290f1",
+		"title": "Chaincode",
+		"description": "The Chaincode is used to deterministically derive child keys of this key.",
+		"flavorText": "",
+		"value": "92f0a924c8c48ed87d6385dff36f9261ff2d1d92739db0c2c78ef0ea830290f1"
+	},
+	{
+		"token": "0340bc6a46ca1adac64cc9599c8a6004afd7782c20d2d568a101e3a81029517358",
+		"title": "Keydata",
+		"description": "The Keydata is the actual bytes of this extended key.",
+		"flavorText": "If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
+		"value": "0340bc6a46ca1adac64cc9599c8a6004afd7782c20d2d568a101e3a81029517358"
+	},
+	{
+		"token": "f4ad6a21",
+		"title": "Checksum",
+		"description": "The Checksum is used to verify that the other data was encoded and transmitted properly.",
+		"flavorText": "",
+		"value": "f4ad6a21"
+	}
+]
+*/
