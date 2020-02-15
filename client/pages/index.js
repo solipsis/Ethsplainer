@@ -3,7 +3,10 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import axios from 'axios'
 import {
-    concat
+    concat,
+    filter,
+    find,
+    get
 } from 'lodash'
 import {
     Box,
@@ -68,16 +71,22 @@ const Home = () => {
     }, [response])
 
     useEffect(() => {
-        if(response && displayToken) {
-            const description = response.find(r => r.token === displayToken).description
+        if(response) {
+            const description = get(find(response, r => r.token === displayToken), 'description', '')
             setDisplayText(description)
         }
     }, [displayToken])
 
     const pushToPinned = useCallback((token) => {
-        const newDescription = response.find(r => r.token === token).description
+        const newDescription = get(find(response, r => r.token === token), 'description')
         const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
-        console.log({ newDescription, pinnedDescriptons, newPinnedDescriptions })
+        setPinnedDescriptions(newPinnedDescriptions)
+    }, [response, pinnedDescriptons])
+
+    const filterFromPinned = useCallback((key) => {
+        const newPinnedDescriptions = filter(pinnedDescriptons, (desc, index) => {
+            return index !== key
+        })
         setPinnedDescriptions(newPinnedDescriptions)
     }, [response, pinnedDescriptons])
 
@@ -87,7 +96,7 @@ const Home = () => {
             <PseudoBox
                 as='text'
                 onMouseEnter={() => setDisplayToken(token)}
-                onMouseLeave={() => setDisplayText('')}
+                onMouseLeave={() => setDisplayToken('')}
                 onClick={() => pushToPinned(token)}
                 _hover={{ color: hoverColor, cursor: 'pointer' }}
             >
@@ -141,7 +150,7 @@ const Home = () => {
                 </Text>
                 {pinnedDescriptons.map((description, index) => {
                     return (
-                        <Text key={index}>
+                        <Text key={index} onClick={() => filterFromPinned(index)}>
                             {description}
                         </Text>
                     )
