@@ -79,8 +79,7 @@ const Home = () => {
     const pushToPinned = useCallback((token) => {
         const obj = find(response, r => r.token === token)
         const newDescription = `${get(obj, 'title')}: ${get(obj, 'value')}`
-        const existingDescription = find(pinnedDescriptons, newDescription)
-        console.log({ pinnedDescriptons, newDescription, existingDescription })
+        const existingDescription = find(pinnedDescriptons, description => description === newDescription)
         if (existingDescription) return
         const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
         setPinnedDescriptions(newPinnedDescriptions)
