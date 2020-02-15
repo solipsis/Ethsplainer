@@ -3,6 +3,9 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import axios from 'axios'
 import {
+    concat
+} from 'lodash'
+import {
     Box,
     Button,
     Flex,
@@ -13,8 +16,7 @@ import {
     PseudoBox,
     Stack,
     Text,
-    ThemeProvider,
-    ColorModeProvider
+    ThemeProvider
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
 
@@ -39,6 +41,7 @@ const Home = () => {
     const [checksum, setChecksum] = useState()
     const [displayToken, setDisplayToken] = useState('')
     const [displayText, setDisplayText] = useState('')
+    const [pinnedDescriptons, setPinnedDescriptions] = useState([])
 
     useEffect(() => {
         const getResponse = async () => {
@@ -71,6 +74,13 @@ const Home = () => {
         }
     }, [displayToken])
 
+    const pushToPinned = useCallback((token) => {
+        const newDescription = response.find(r => r.token === token).description
+        const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
+        console.log({ newDescription, pinnedDescriptons, newPinnedDescriptions })
+        setPinnedDescriptions(newPinnedDescriptions)
+    }, [response, pinnedDescriptons])
+
 
     const TokenBox = ({ children: token }) => {
         return (
@@ -85,8 +95,6 @@ const Home = () => {
             </PseudoBox>
         )
     }
-
-
 
     const getTokenFromTitle = useCallback((title) => {
         if(response) {
@@ -116,7 +124,6 @@ const Home = () => {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
-                    {/* <Button variantColor='blue.50'>Send</Button> */}
                 </Flex>
                 <Flex wordBreak='break-all'>
                     <Text>
@@ -132,6 +139,13 @@ const Home = () => {
                 <Text>
                     {displayText}
                 </Text>
+                {pinnedDescriptons.map((description, index) => {
+                    return (
+                        <Text key={index}>
+                            {description}
+                        </Text>
+                    )
+                })}
             </Stack>
         </Box>
     )
