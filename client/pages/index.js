@@ -139,13 +139,13 @@ const Home = () => {
                 </Flex>
                 <Flex wordBreak='break-all'>
                     <Text>
-                        <TokenBox color='pink.500'>{version}</TokenBox>
-                        <TokenBox color='red.500'>{depth}</TokenBox>
-                        <TokenBox color='orange.500'>{fingerprint}</TokenBox>
-                        <TokenBox color='yellow.500'>{index}</TokenBox>
-                        <TokenBox color='green.500'>{chaincode}</TokenBox>
-                        <TokenBox color='blue.500'>{keydata}</TokenBox>
-                        <TokenBox color='purple.500'>{checksum}</TokenBox>
+                        <TokenBox color='pink.400'>{version}</TokenBox>
+                        <TokenBox color='red.400'>{depth}</TokenBox>
+                        <TokenBox color='orange.400'>{fingerprint}</TokenBox>
+                        <TokenBox color='yellow.400'>{index}</TokenBox>
+                        <TokenBox color='green.400'>{chaincode}</TokenBox>
+                        <TokenBox color='blue.400'>{keydata}</TokenBox>
+                        <TokenBox color='purple.400'>{checksum}</TokenBox>
                     </Text>
                 </Flex>
                 <Text>
