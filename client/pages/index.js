@@ -55,10 +55,9 @@ const rainbowColors = {
 
 const Home = () => {
     const [response, setResponse] = useState()
-    const [index, setIndex] = useState()
     const [displayToken, setDisplayToken] = useState('')
-    const [displayText, setDisplayText] = useState('')
-    const [pinnedDescriptons, setPinnedDescriptions] = useState([])
+    const [inputType, setInputType] = useState('')
+    const [pinnedObjects, setPinnedObjects] = useState([])
     const [page, setPage] = useState(0)
     const [input, setInput] = useState('')
 
@@ -78,43 +77,35 @@ const Home = () => {
 
     useEffect(() => {
         if(response) {
-            const obj = find(response, r => r.token === displayToken)
-            const text = obj ? `${get(obj, 'title')}: ${get(obj, 'value')}` : 'Hover over transaction'
-            setDisplayText(text)
-        }
-    }, [displayToken])
-
-    const pushToPinned = useCallback((token) => {
-        const obj = find(response, r => r.token === token)
-        const newDescription = `${get(obj, 'title')}: ${get(obj, 'value')}`
-        const existingDescription = find(pinnedDescriptons, description => description === newDescription)
-        if (existingDescription) return
-        const newPinnedDescriptions = concat(newDescription, pinnedDescriptons)
-        setPinnedDescriptions(newPinnedDescriptions)
-    }, [response, pinnedDescriptons])
-
-    const filterFromPinned = useCallback((key) => {
-        const newPinnedDescriptions = filter(pinnedDescriptons, (description, index) => {
-            return index !== key
-        })
-        setPinnedDescriptions(newPinnedDescriptions)
-    }, [response, pinnedDescriptons])
-
-
-    const getTokenFromTitle = useCallback((title) => {
-        if(response) {
-            return get(find(response, r => r.title === title), 'token')
+            const obj = find(response, r => r)
+            if(obj) {
+                setInputType(obj.type)
+            }
         }
     }, [response])
 
+    const pushToPinned = useCallback((tokenObj) => {
+        const obj = find(response, r => r.token === tokenObj.token)
+        const existingObj = find(pinnedObjects, obj => obj.token === tokenObj.token)
+        if (existingObj) return
+        const newPinnedObjects = concat(obj, pinnedObjects)
+        setPinnedObjects(newPinnedObjects)
+    }, [response, pinnedObjects])
+
+    const filterFromPinned = useCallback((key) => {
+        const newPinnedObjects = filter(pinnedObjects, (obj, index) => {
+            return index !== key
+        })
+        setPinnedObjects(newPinnedObjects)
+    }, [response, pinnedObjects])
+
+
     const getTxDetails = useCallback(async (input) => {
         try {
-            console.log({ input })
-            const response = await axios.post('http://localhost:8080', { input })
-            console.log({ responseData: response.data })
-            setResponse(get(response, 'data'))
+            const goResponse = await axios.post('http://localhost:8080', { input })
+            console.log({ responseData: goResponse.data })
+            setResponse(get(goResponse, 'data'))
             setPage(1)
-            console.log({ page })
         } catch (err) {
             console.log(`API err: ${err}`)
         }
@@ -155,7 +146,7 @@ const Home = () => {
                                             value={input}
                                         />
                                     </Box>
-                                    <Button success onClick={() => getTxDetails(input)} varientColor='blue'>
+                                    <Button success onClick={() => getTxDetails(input)}>
                                         Learn
                                     </Button>
                                 </Flex>
@@ -165,42 +156,63 @@ const Home = () => {
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all'>
                                     <Flex justify='space-between' fontSize={24}>
-                                        <Container title='Raw Data' rounded>
-                                            {map(response, (tokenObj, index) => {
+                                        <Container title={inputType ? inputType : ''} rounded>
+                                            {response ? map(response, (tokenObj, index) => {
                                                 return (
                                                     <PseudoBox
                                                         as='text'
+                                                        key={index}
                                                         fontSize={16}
                                                         font='inherit'
                                                         color={rainbowColors[index % 7]}
-                                                        onMouseEnter={() => setDisplayToken(get(tokenObj, 'token'))}
+                                                        onMouseEnter={() => setDisplayToken(tokenObj)}
                                                         onMouseLeave={() => setDisplayToken(null)}
-                                                        onClick={() => pushToPinned(tokenObj.token)}
+                                                        onClick={() => pushToPinned(tokenObj)}
                                                         _hover={{ color: 'blue.500', cursor: 'pointer' }}
                                                     >
                                                         {tokenObj.token}
                                                     </PseudoBox>
                                                 )}
-                                            )}
+                                            ) : null}
                                         </Container>
                                         <Box w='100%'>
                                             <Button primary onClick={() => goBack()} >Back</Button>
                                         </Box>
                                     </Flex>
                                 </Flex>
-                                <Container w='100%' rounded>
+                                <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
                                     <Box color='red.500' pl={4}>
-                                        {displayText ? displayText : 'Hover over the transaction'}
+                                        {displayToken ? (
+                                            <>
+                                                <Box>
+                                                    {displayToken.value}
+                                                </Box>
+                                                <Box>
+                                                    {displayToken.description}
+                                                </Box>
+                                            </>
+                                         ) : (
+                                             <>
+                                                <Box>
+                                                    Hover over a color coded portion
+                                                </Box>
+                                                <Box>
+                                                    of the transaction to learn more.
+                                                </Box>
+                                            </>
+                                         )}
                                     </Box>
                                 </Container>
                                 <Stack mt={16} spacing={16} justify='center'>
-                                    {pinnedDescriptons.map((description, index) => {
+                                    {pinnedObjects.map((obj, index) => {
                                         return (
                                             <Box>
-
-                                                <Container width='100%' rounded>
+                                                <Container width='100%' rounded title={obj.title}>
                                                     <Flex direction='row' justify='space-between'>
-                                                        <Box color={rainbowColors[index + 1]}>{description}</Box>
+                                                        <Flex direction='column'>
+                                                            <Box color={rainbowColors[index + 1]}>{obj.value}</Box>
+                                                            <Box color={rainbowColors[index + 1]}>{obj.description}</Box>
+                                                        </Flex>
                                                         <Button error onClick={() => filterFromPinned(index)}>Close</Button>
                                                     </Flex>
                                                 </Container>
