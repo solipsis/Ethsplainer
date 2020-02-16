@@ -60,6 +60,7 @@ const Home = () => {
     const [page, setPage] = useState(0)
     const [input, setInput] = useState('')
     const [errorState, setErrorState] = useState(false)
+    const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
 
 
     const handleChange = event => {
@@ -113,11 +114,14 @@ const Home = () => {
             console.log({ responseData: goResponse.data })
             if (typeof get(goResponse, 'data', null) === 'string') {
                 setErrorState(true)
+                setErrorText('Sorry, I don\'t understand this format.')
             }
             setResponse(get(goResponse, 'data'))
             setPage(1)
         } catch (err) {
             console.log(`API err: ${err}`)
+            setErrorState(true)
+            setErrorText('Something went wrong. I\'m sorry.')
             setResponse(mockResponse)
         }
     }, [input])
@@ -162,7 +166,7 @@ const Home = () => {
                                     </Button>
                                 </Flex>
                                 <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
-                                    Sorry, I don't understand this format.
+                                    {errorText}
                                 </Flex>
                             </Stack>
                         </Flex>
