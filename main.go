@@ -72,7 +72,7 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		toks, err = op.parse(req.Input)
 
 	default:
-		w.Write([]byte("I don't know what to do with this, harass Dave"))
+		w.Write([]byte("Sorry, I down Understand this format"))
 		return
 	}
 
@@ -80,7 +80,15 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Parse error: %v\n", err)
 	}
 
-	res, err := json.MarshalIndent(toks, "", "	")
+	test := struct {
+		Tokens []token
+		Type   string
+	}{
+		Tokens: toks,
+		Type:   "XPUB (Base58 decoded)",
+	}
+
+	res, err := json.MarshalIndent(test, "", "	")
 	if err != nil {
 		panic(err)
 	}
