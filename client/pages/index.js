@@ -133,7 +133,7 @@ const Home = () => {
     return (
         <>
             <Container title='EthSplainer 2.0' rounded>
-                <Box>
+                <Box pb={10}>
                     <Stack spacing={10} py={16} >
                         <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={16}>
                             <Stack spacing={8} justify='center' align='center'>
@@ -170,7 +170,7 @@ const Home = () => {
                                 </Flex>
                             </Stack>
                         </Flex>
-                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pb={get(pinnedObjects, 'length', 0) <= 1 ? '9rem' : '0'}>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pb='11rem'>
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
