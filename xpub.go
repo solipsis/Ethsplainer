@@ -51,42 +51,42 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 		Title:       "Depth",
 		Description: "The Depth byte tells you have what generation key this is.\nIn other words it tells you how many parent keys or ancestors lead up to this key.",
 		FlavorText:  "In other words it tells you how many parent keys or ancestors lead up to this key.",
-		Value:       bytesToInt(xpub[4:5]).String(),
+		Value:       fmt.Sprintf("%s (0x%x)", bytesToInt(xpub[4:5]).String(), xpub[4:5]),
 	}
 	fingerprint := token{
 		Token:       hex.EncodeToString(xpub[5:9]),
 		Title:       "Fingerprint",
 		Description: "The Fingerprint is used to verify the parent key.",
 		FlavorText:  "",
-		Value:       hex.EncodeToString(xpub[5:9]),
+		Value:       "0x" + hex.EncodeToString(xpub[5:9]),
 	}
 	index := token{
 		Token:       hex.EncodeToString(xpub[9:13]),
 		Title:       "Index",
 		Description: "The Index tells you what child of the parent key this is.\nEach parent can support up to 2^32 child keys.",
 		FlavorText:  "Each parent can support up to 2^32 child keys.",
-		Value:       bytesToInt(xpub[9:13]).String(),
+		Value:       fmt.Sprintf("%s (0x%x)", bytesToInt(xpub[9:13]).String(), xpub[9:13]),
 	}
 	chaincode := token{
 		Token:       hex.EncodeToString(xpub[13:45]),
 		Title:       "Chaincode",
 		Description: "The Chaincode is used to deterministically derive child keys of this key.",
 		FlavorText:  "",
-		Value:       hex.EncodeToString(xpub[13:45]),
+		Value:       "0x" + hex.EncodeToString(xpub[13:45]),
 	}
 	keydata := token{
 		Token:       hex.EncodeToString(xpub[45:78]),
 		Title:       "Keydata",
 		Description: "The Keydata is the actual bytes of this extended key.\nIf the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
 		FlavorText:  "If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
-		Value:       hex.EncodeToString(xpub[45:78]),
+		Value:       "0x" + hex.EncodeToString(xpub[45:78]),
 	}
 	checksum := token{
 		Token:       hex.EncodeToString(xpub[78:82]),
 		Title:       "Checksum",
 		Description: "The Checksum is used to verify that the other data was encoded and transmitted properly.",
 		FlavorText:  "",
-		Value:       hex.EncodeToString(xpub[78:82]),
+		Value:       "0x" + hex.EncodeToString(xpub[78:82]),
 	}
 
 	return []token{version, depth, fingerprint, index, chaincode, keydata, checksum}, nil
