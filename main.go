@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/big"
 	"net/http"
+	"os"
 )
 
 type token struct {
@@ -32,9 +33,15 @@ type parser interface {
 
 func main() {
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+
 	fmt.Println("start")
 	http.HandleFunc("/", http.HandlerFunc(handleData))
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe(":"+port, nil)
 	fmt.Println("end")
 
 	// generate opcode list
