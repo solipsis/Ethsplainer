@@ -52,6 +52,7 @@ const Home = () => {
     const [errorState, setErrorState] = useState(false)
     const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
     const [hover, setHover] = useState(false)
+    const [vitalik, setVitalik] = useState(false)
 
 
     const handleChange = event => {
@@ -130,7 +131,8 @@ const Home = () => {
                             <Stack spacing={8} justify='center' align='center'>
                                 <Flex justify='center' ml={-32}>
                                     <Image
-                                        src='/assets/pegabufficorn.png'
+                                        onClick={() => setVitalik(!vitalik)}
+                                        src={vitalik ? '/assets/vitalik.png' : '/assets/pegabufficorn.png'}
                                         size={64}
                                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                                         />
@@ -153,7 +155,11 @@ const Home = () => {
                                             value={input}
                                         />
                                     </Box>
-                                    <Button success onClick={() => getTxDetails(input)} style={{ marginLeft : 16 }}>
+                                    <Button
+                                        success
+                                        onClick={() => getTxDetails(input)}
+                                        style={{ marginLeft : 16 }}
+                                    >
                                         Learn
                                     </Button>
                                 </Flex>
@@ -201,11 +207,9 @@ const Home = () => {
                                                     opacity={!displayToken || displayToken === tokenObj ? '1': '0.4'}
                                                     onMouseEnter={() => {
                                                         tokenObj.colorIndex = index % 7
-                                                        setHover(true)
                                                         setDisplayToken(tokenObj)
                                                     }}
                                                     onMouseLeave={() => {
-                                                        setHover(false)
                                                         setDisplayToken(null)
                                                     }}
                                                     onClick={() => pushToPinned(tokenObj, index)}
