@@ -143,7 +143,7 @@ const Home = () => {
                                         size={64}
                                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                                         />
-                                    <Box mb={32} w={32}>
+                                    <Box pl={4} mb={32} w={32}>
                                         <Balloon fromLeft >
                                             <span>What Can I Help You Understand?</span>
                                         </Balloon>
