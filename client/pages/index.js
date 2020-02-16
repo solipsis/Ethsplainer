@@ -121,7 +121,7 @@ const Home = () => {
         } catch (err) {
             console.log(`API err: ${err}`)
             setErrorState(true)
-            setErrorText('Something went wro ng. I\'m sorry.')
+            setErrorText('Something went wrong. I\'m sorry.')
             setResponse(mockResponse)
         }
     }, [input])
