@@ -24,6 +24,8 @@ import {
     ThemeProvider
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
+import { Container } from 'nes-react'
+
 
 const App = () => {
     return (
@@ -98,6 +100,8 @@ const Home = () => {
         return (
             <PseudoBox
                 as='text'
+                fontSize={16}
+                font='inherit'
                 color={color}
                 onMouseEnter={() => setDisplayToken(token)}
                 onMouseLeave={() => setDisplayToken(null)}
@@ -122,6 +126,7 @@ const Home = () => {
             console.log({ responseData: response.data })
             setResponse(get(response, 'data'))
             setPage(1)
+            console.log({ page })
         } catch (err) {
             console.log(`API err: ${err}`)
         }
@@ -132,83 +137,93 @@ const Home = () => {
     }, [])
 
     return (
-        <Box bg='teal.900' mx={-8} mt={-8} mb={-64}>
-            <Flex justify='flex-end'>
-                <Icon pt={16} size={12} pr={32} name='arrow-back' color='blue.900' display={page === 1 ? 'block' : 'none'} onClick={() => goBack()} />
-            </Flex>
-            <Text textAlign='center' color='blue.500' fontSize={64} fontWeight='bold'>EthSplainer 2.0</Text>
-            <Stack spacing={10} py={16} px={64}>
-                <Box d={page === 0 ? 'block' : 'none'}>
-                    <Flex justify='space-around' align='center'>
-                        <Image
-                            src='/assets/pegabufficorn.png'
-                            size={32}
-                            fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
-                        />
-                        <InputGroup>
-                            <Input
-                                w={500}
-                                varient='filled'
-                                placeholder='What can I help you understand?'
-                                borderRadius={5}
-                                onChange={handleChange}
-                                value={input}
-                            />
-                            <InputRightElement>
-                                <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
-                                    Get
-                                </Button>
-                            </InputRightElement>
-                        </InputGroup>
+        <>
+            <Container>
+                <Box font='inherit' bg='teal.900' mx={-8} mt={-8} mb={-64}>
+                    <Flex justify='flex-end'>
+                        <Icon pt={16} size={12} pr={32} name='arrow-back' color='blue.900' display={page === 1 ? 'block' : 'none'} onClick={() => goBack()} />
                     </Flex>
-                </Box>
-                <Box d={page === 1 ? 'block' : 'none'}>
-                    <Stack spacing={10}>
-                        <Flex wordBreak='break-all'>
-                            <Text fonstSize={24}>
-                                {map(response, (tokenObj, index) => {
-                                    return (
-                                        <TokenBox key={index} color={rainbowColors[index % 7]}>{tokenObj.token}</TokenBox>
-                                    )
-                                } )}
-                            </Text>
-                        </Flex>
-                        <Flex
-                            justify='space-between'
-                            key={index}
-                            border='1px solid'
-                            borderRadius={6}
-                            borderColor='red.500'
-                        >
-                            <Text color='red.500' pl={4}>
-                                {displayText ? displayText : 'Hover over the transaction'}
-                            </Text>
-                        </Flex>
-                        {pinnedDescriptons.map((description, index) => {
-                            return (
-                                <Flex
-                                justify='space-between'
-                                key={index}
-                                border='1px solid'
-                                borderRadius={6}
-                                borderColor={rainbowColors[index + 1]}
-                                >
-                                    <Text color={rainbowColors[index + 1]} pl={4}>{description}</Text>
-                                    <PseudoBox pr={1} _hover={{ cursor: 'pointer' }}>
-                                        <Icon
-                                            color={rainbowColors[index + 1]}
-                                            onClick={() => filterFromPinned(index)}
-                                            name='close'
-                                            size='11px'
-                                            />
-                                    </PseudoBox>
+                    <Box textAlign='center' color='blue.500' fontSize={36} textAlign='center'>
+                        <span font='inherit' >EthSplainer 2.0</span>
+                    </Box>
+                    <Stack spacing={10} py={16} px={64}>
+                        <Box d={page === 0 ? 'block' : 'none'}>
+                            <Flex justify='space-around' align='center'>
+                                <Image
+                                    src='/assets/pegabufficorn.png'
+                                    size={64}
+                                    fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
+                                />
+                                <InputGroup>
+                                    <Input
+                                        w={500}
+                                        varient='filled'
+                                        placeholder='What can I help you understand?'
+                                        borderRadius={5}
+                                        onChange={handleChange}
+                                        value={input}
+                                    />
+                                    <InputRightElement>
+                                        <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
+                                            Get
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                            </Flex>
+                        </Box>
+                        <Box d={page === 1 ? 'block' : 'none'}>
+                            <Stack spacing={10}>
+                                <Flex wordBreak='break-all'>
+                                    <Box fontSize={24}>
+                                        {map(response, (tokenObj, index) => {
+                                            return (
+                                                <TokenBox key={index} color={rainbowColors[index % 7]}>{tokenObj.token}</TokenBox>
+                                            )
+                                        } )}
+                                    </Box>
                                 </Flex>
-                            )
-                        })}
+                                <Flex
+                                    justify='space-between'
+                                    key={index}
+                                    border='1px solid'
+                                    borderRadius={6}
+                                    borderColor='red.500'
+                                >
+                                    <Text color='red.500' pl={4}>
+                                        {displayText ? displayText : 'Hover over the transaction'}
+                                    </Text>
+                                </Flex>
+                                {pinnedDescriptons.map((description, index) => {
+                                    return (
+                                        <Flex
+                                        justify='space-between'
+                                        key={index}
+                                        border='1px solid'
+                                        borderRadius={6}
+                                        borderColor={rainbowColors[index + 1]}
+                                        >
+                                            <Text color={rainbowColors[index + 1]} pl={4}>{description}</Text>
+                                            <PseudoBox pr={1} _hover={{ cursor: 'pointer' }}>
+                                                <Icon
+                                                    color={rainbowColors[index + 1]}
+                                                    onClick={() => filterFromPinned(index)}
+                                                    name='close'
+                                                    size='11px'
+                                                    />
+                                            </PseudoBox>
+                                        </Flex>
+                                    )
+                                })}
+                            </Stack>
+                        </Box>
                     </Stack>
                 </Box>
-            </Stack>
-        </Box>
+            </Container>
+            <link
+                href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+                rel="stylesheet"
+            />
+        </>
     )
 }
 
