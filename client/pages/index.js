@@ -146,7 +146,7 @@ const Home = () => {
                                             value={input}
                                         />
                                     </Box>
-                                    <Button success onClick={() => getTxDetails(input)}>
+                                    <Button success onClick={() => getTxDetails(input)} style={{ marginLeft : 16 }}>
                                         Learn
                                     </Button>
                                 </Flex>
