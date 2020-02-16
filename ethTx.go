@@ -86,13 +86,23 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	// TODO: probaly some edge case i'm missing
 	prefix := buf[0]
 	l := prefix - 0xf7
+	llen := buf[1 : 1+l]
 	pre := token{
-		Token:       hex.EncodeToString(buf[0:l]),
+		Token:       hex.EncodeToString(buf[0 : 1+l]),
 		Title:       "RLP Prefix",
-		Description: "RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.",
-		Value:       hex.EncodeToString(buf[0:l]),
+		Description: fmt.Sprintf("RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.\nThis is an RLP 'list' with total length > 55 bytes.\n The first byte (0x%x - 0xF7) tells us the length of the length (%d bytes).\nThe actual length of the list in bytes is %s bytes (0x%x)", prefix, l, bytesToInt(llen), llen),
+		Value:       hex.EncodeToString(buf[0 : 1+l]),
 	}
 	toks = append(toks, pre)
+
+	/*
+			tok := &token{
+			Token:       hex.EncodeToString(enc[:1+l]),
+			Title:       "RLP Length Prefix",
+			Description: fmt.Sprintf("This is an RLP 'string' with length > 55 bytes.\nThe first byte (0x%x-0xB7) tells us the length of the length (%d bytes).\nThe actual field length is %s bytes (0x%x)", prefix, l, bytesToInt(fieldLen).String(), fieldLen),
+			Value:       hex.EncodeToString(enc[:1+l]),
+		}
+	*/
 
 	// add the other fields and their rlp prefixes
 	toks = append(toks, genToken(tx.Nonce(), NONCE)...)
@@ -142,14 +152,13 @@ func genToken(val interface{}, f EthField) []token {
 		desc     string
 		longDesc string
 		value    string
-		tok      string
 	)
 	switch f {
 	case NONCE:
 		title = "Nonce"
 		desc = "The nonce is an incrementing sequence number used to prevent message replay."
 		longDesc = ""
-		if rlpTok == nil {
+		if rlpTok == nil && body[0] == 0x80 {
 			value = "0 (0x80) is the RLP encoded version of zero"
 		} else {
 			value = bytesToInt(body).String()
@@ -158,16 +167,16 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Gas Price"
 		desc = "The price of gas (in wei) that the sender is willing to pay."
 		longDesc = ""
-		value = bytesToInt(body).String()
+		value = "0x" + bytesToInt(body).String()
 	case GAS_LIMIT:
 		title = "Gas Limit"
 		desc = "The maximum amount of gas the originator is willing to pay for this transaction."
 		longDesc = ""
-		value = bytesToInt(body).String()
+		value = "0x" + bytesToInt(body).String()
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
-		if rlpTok == nil {
+		if rlpTok == nil && body[0] == 0x80 {
 			desc = "The recipient field is empty. This signifies that this is a special call to Create a contract"
 			value = ""
 		} else {
@@ -178,7 +187,7 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Value"
 		desc = "Amount of Eth in wei"
 		longDesc = "The amount of ether (in wei) to send to the recipient address."
-		if rlpTok == nil {
+		if rlpTok == nil && body[0] == 0x80 {
 			value = "0"
 		} else {
 			value = bytesToInt(body).String()
@@ -200,17 +209,17 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Signature V"
 		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
 		longDesc = ""
-		value = "0x" + tok
+		value = "0x" + hex.EncodeToString(body)
 	case SIG_R:
 		title = "Signature R"
 		desc = "(r) part of the signature pair (r,s)."
 		longDesc = "Represents the X-coordinate of an ephemeral public key created during the ECDSA signing process."
-		value = "0x" + tok
+		value = "0x" + hex.EncodeToString(body)
 	case SIG_S:
 		title = "Signature S"
 		desc = "(s) part of the signature pair (r,s)."
 		longDesc = "Generated using the ECDSA signing algorithm."
-		value = "0x" + tok
+		value = "0x" + hex.EncodeToString(body)
 	}
 	toks = append(toks, token{
 		Token:       hex.EncodeToString(body),
@@ -242,7 +251,7 @@ func addRLPToken(enc []byte) (*token, int) {
 		tok := &token{
 			Token:       hex.EncodeToString([]byte{prefix}),
 			Title:       "RLP Length Prefix",
-			Description: fmt.Sprintf("RLP Length Prefix. The next field is an RLP 'string' of length 0x%x (0x%x - 0x80)", prefix-0x80, prefix),
+			Description: fmt.Sprintf("RLP Length Prefix. The next field is an RLP 'string' of length %d (0x%x - 0x80)", int(prefix)-0x80, prefix),
 			Value:       hex.EncodeToString([]byte{prefix}),
 		}
 		return tok, len(enc) - (int(prefix) - 0x80)
