@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
 import axios from 'axios'
 import {
     concat,
@@ -43,9 +41,6 @@ const rainbowColors = {
     5: 'blue.400',
     6: 'purple.400',
 }
-// xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz
-
-// 0xf88738843b9aca0082785394030c09afd8a0e756d114bfb8c8446fbb80e3831180a443bb3608000000000000000000000000000000000000000000000000000000005e487ead26a04e8cab72974de24e13d07c3dec4ab5970519b9441b7d736018045963ba0783fda019c87ecd75abe3e9eaca66023153315addd5628da40dc96a43c6fbb5457753cb
 
 const Home = () => {
     const [response, setResponse] = useState()
@@ -162,27 +157,28 @@ const Home = () => {
                                         Learn
                                     </Button>
                                 </Flex>
-                                <Stack ml={8} justifyContent='center' alignItems='center' spacing={10}>
+
+                                <Stack ml={8} justifyContent='center' alignItems='center' spacing={4}>
                                     <Box>
                                         Or click one of the examples below to populate the input.
                                     </Box>
                                     <PseudoBox
                                         _hover={{ cursor: 'pointer' }}
                                         onClick={() => setInput('0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af')}
-                                     >
-                                        {'Eth Tx Hash: 0xc45367afb9...'}
+                                    >
+                                        {'* Eth Tx Hash: 0xc45367afb9...'}
                                     </PseudoBox>
                                     <PseudoBox
                                         _hover={{ cursor: 'pointer' }}
                                         onClick={() => setInput('0xf86c2285012a05f2008252089490e9ddd9d8d5ae4e3763d0cf856c97594dea7325884431a977b29170008026a02f92f54ad283f2cc962f22be7d12d6fff8c9ad51b04b8fc6c60a1f791ca4627ea00120aa6101d4207c15c13128fa3162e824d518466027f860d4a4eb534ae68634')}
-                                     >
-                                        {'Raw Tx Hex: 0xf86c2285012...'}
+                                    >
+                                        {'* Raw Tx Hex: 0xf86c2285012...'}
                                     </PseudoBox>
                                     <PseudoBox
                                         _hover={{ cursor: 'pointer' }}
                                         onClick={() => setInput('60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029')}
-                                     >
-                                        {'EVM Opcodes: 0x6080604052...'}
+                                    >
+                                        {'* EVM Opcodes: 0x6080604052...'}
                                     </PseudoBox>
                                 </Stack>
                                 <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
