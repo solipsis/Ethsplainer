@@ -60,6 +60,7 @@ const Home = () => {
     const [page, setPage] = useState(0)
     const [input, setInput] = useState('')
     const [errorState, setErrorState] = useState(false)
+    const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
 
 
     const handleChange = event => {
@@ -113,11 +114,14 @@ const Home = () => {
             console.log({ responseData: goResponse.data })
             if (typeof get(goResponse, 'data', null) === 'string') {
                 setErrorState(true)
+                setErrorText('Sorry, I don\'t understand this format.')
             }
             setResponse(get(goResponse, 'data'))
             setPage(1)
         } catch (err) {
             console.log(`API err: ${err}`)
+            setErrorState(true)
+            setErrorText('Something went wro ng. I\'m sorry.')
             setResponse(mockResponse)
         }
     }, [input])
@@ -128,7 +132,7 @@ const Home = () => {
 
     return (
         <>
-            <Container title='EthSplainer 2.0' rounded style={{ height : "98vh" }}>
+            <Container title='EthSplainer 2.0' rounded>
                 <Box>
                     <Stack spacing={10} py={16} >
                         <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={16}>
@@ -162,11 +166,11 @@ const Home = () => {
                                     </Button>
                                 </Flex>
                                 <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
-                                    Sorry, I don't understand this format.
+                                    {errorText}
                                 </Flex>
                             </Stack>
                         </Flex>
-                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12}>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pb={get(pinnedObjects, 'length', 0) <= 1 ? '9rem' : '0'}>
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
@@ -209,10 +213,10 @@ const Home = () => {
                                          ) : (
                                              <>
                                                 <Box>
-                                                    Hover over a color coded portion
+                                                    Hover over a color coded portion of the transaction to learn more.
                                                 </Box>
                                                 <Box>
-                                                    of the transaction to learn more.
+                                                    Click on a section to pin it's description.
                                                 </Box>
                                             </>
                                          )}
@@ -246,6 +250,7 @@ const Home = () => {
                 href="https://fonts.googleapis.com/css?family=Press+Start+2P"
                 rel="stylesheet"
             />
+            <title>EthSplainer 2.0</title>
         </>
     )
 }
