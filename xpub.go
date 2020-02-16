@@ -77,8 +77,8 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	keydata := token{
 		Token:       hex.EncodeToString(xpub[45:78]),
 		Title:       "Keydata",
-		Description: "The Keydata is the actual bytes of this extended key.\nIf the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
-		FlavorText:  "If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
+		Description: "The Keydata is the actual bytes of this extended key.\nIf the first byte is 0x00 you know that this is a public child key. Otherwise, this is a private child.",
+		FlavorText:  "If the first byte is 0x00 you know that this is a public child key. Otherwise, this is a private child.",
 		Value:       "0x" + hex.EncodeToString(xpub[45:78]),
 	}
 	checksum := token{
