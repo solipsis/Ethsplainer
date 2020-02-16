@@ -61,6 +61,7 @@ const Home = () => {
     const [input, setInput] = useState('')
     const [errorState, setErrorState] = useState(false)
     const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
+    const [hover, setHover] = useState(false)
 
 
     const handleChange = event => {
@@ -171,7 +172,7 @@ const Home = () => {
                             </Stack>
                         </Flex>
                         <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pb='11rem'>
-                            <Stack spacing={10}>
+                            <Stack spacing={4}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
                                         {response ? map(response, (tokenObj, index) => {
@@ -184,9 +185,13 @@ const Home = () => {
                                                     opacity={!displayToken || displayToken === tokenObj ? '1': '0.4'}
                                                     onMouseEnter={() => {
                                                         tokenObj.colorIndex = index
+                                                        setHover(true)
                                                         setDisplayToken(tokenObj)
                                                     }}
-                                                    onMouseLeave={() => setDisplayToken(null)}
+                                                    onMouseLeave={() => {
+                                                        setHover(false)
+                                                        setDisplayToken(null)
+                                                    }}
                                                     onClick={() => pushToPinned(tokenObj, index)}
                                                     _hover={{ color: `${rainbowColors[index % 7]}`, cursor: 'pointer' }}
                                                 >
@@ -199,30 +204,32 @@ const Home = () => {
                                         <Button primary onClick={() => goBack()}>Back</Button>
                                     </Box>
                                 </Flex>
-                                <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
-                                    <Box color='rgb(33, 37, 41);' pl={4}>
-                                        {displayToken ? (
-                                            <>
-                                                <Box color={rainbowColors[displayToken.colorIndex]}>
-                                                    {displayToken.value}
-                                                </Box>
-                                                <Box color={rainbowColors[displayToken.colorIndex]}>
-                                                    {displayToken.description}
-                                                </Box>
-                                            </>
-                                         ) : (
-                                             <>
+                                <Box display={displayToken || get(pinnedObjects, 'length', 0) === 0 ? 'block' : 'none'}>
+                                    <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
+                                        <Box color='rgb(33, 37, 41);' pl={4}>
+                                            {displayToken ? (
                                                 <Box>
-                                                    Hover over a color coded portion of the transaction to learn more.
+                                                    <Box color={rainbowColors[displayToken.colorIndex]}>
+                                                        {displayToken.value}
+                                                    </Box>
+                                                    <Box color={rainbowColors[displayToken.colorIndex]}>
+                                                        {displayToken.description}
+                                                    </Box>
                                                 </Box>
+                                            ) : (
                                                 <Box>
-                                                    Click on a section to pin it's description.
+                                                    <Box>
+                                                        Hover over a color coded portion of the transaction to learn more.
+                                                    </Box>
+                                                    <Box>
+                                                        Click on a section to pin it's description.
+                                                    </Box>
                                                 </Box>
-                                            </>
-                                         )}
-                                    </Box>
-                                </Container>
-                                <Stack mt={4} spacing={4} justify='center'>
+                                            )}
+                                        </Box>
+                                    </Container>
+                                </Box>
+                                <Stack spacing={4} justify='center'>
                                     {pinnedObjects.map((obj, index) => {
                                         return (
                                             <Box>
