@@ -198,6 +198,7 @@ const Home = () => {
                                             return (
                                                 <PseudoBox
                                                     as='text'
+                                                    fontSize={16}
                                                     key={index}
                                                     font='inherit'
                                                     color={rainbowColors[index % 7]}
@@ -219,7 +220,7 @@ const Home = () => {
                                             )}
                                         ) : null}
                                     </Container>
-                                    <Box w='22%'>
+                                    <Box w='25%' ml={4}>
                                         <Button primary onClick={() => goBack()}>Back</Button>
                                     </Box>
                                 </Flex>
