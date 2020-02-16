@@ -132,7 +132,7 @@ const Home = () => {
 
     return (
         <>
-            <Container title='EthSplainer 2.0' rounded style={{ height : "98vh" }}>
+            <Container title='EthSplainer 2.0' rounded>
                 <Box>
                     <Stack spacing={10} py={16} >
                         <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={16}>
@@ -170,7 +170,7 @@ const Home = () => {
                                 </Flex>
                             </Stack>
                         </Flex>
-                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12}>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pb={get(pinnedObjects, 'length', 0) <= 1 ? '9rem' : '0'}>
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
@@ -213,10 +213,10 @@ const Home = () => {
                                          ) : (
                                              <>
                                                 <Box>
-                                                    Hover over a color coded portion
+                                                    Hover over a color coded portion of the transaction to learn more.
                                                 </Box>
                                                 <Box>
-                                                    of the transaction to learn more.
+                                                    Click on a section to pin it's description.
                                                 </Box>
                                             </>
                                          )}
