@@ -42,14 +42,14 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	version := token{
 		Token:       hex.EncodeToString(xpub[0:4]),
 		Title:       "Version",
-		Description: "The verison gives information into what kind of key is encoded.",
+		Description: "The verison gives information into what kind of key is encoded.\nThis is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
 		FlavorText:  "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
 		Value:       bytesToInt(xpub[0:4]).String(),
 	}
 	depth := token{
 		Token:       hex.EncodeToString(xpub[4:5]),
 		Title:       "Depth",
-		Description: "The Depth byte tells you have what generation key this is.",
+		Description: "The Depth byte tells you have what generation key this is.\nIn other words it tells you how many parent keys or ancestors lead up to this key.",
 		FlavorText:  "In other words it tells you how many parent keys or ancestors lead up to this key.",
 		Value:       bytesToInt(xpub[4:5]).String(),
 	}
@@ -63,7 +63,7 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	index := token{
 		Token:       hex.EncodeToString(xpub[9:13]),
 		Title:       "Index",
-		Description: "The Index tells you what child of the parent key this is.",
+		Description: "The Index tells you what child of the parent key this is.\nEach parent can support up to 2^32 child keys.",
 		FlavorText:  "Each parent can support up to 2^32 child keys.",
 		Value:       bytesToInt(xpub[9:13]).String(),
 	}
@@ -77,7 +77,7 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	keydata := token{
 		Token:       hex.EncodeToString(xpub[45:78]),
 		Title:       "Keydata",
-		Description: "The Keydata is the actual bytes of this extended key.",
+		Description: "The Keydata is the actual bytes of this extended key.\nIf the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
 		FlavorText:  "If the first byte is 0x00 you know that this is a public child key. Otherwise this is a private child.",
 		Value:       hex.EncodeToString(xpub[45:78]),
 	}
