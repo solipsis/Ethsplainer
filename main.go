@@ -32,8 +32,10 @@ type parser interface {
 
 func main() {
 
+	fmt.Println("start")
 	http.HandleFunc("/", http.HandlerFunc(handleData))
 	http.ListenAndServe("localhost:8080", nil)
+	fmt.Println("end")
 
 	// generate opcode list
 	//runner()

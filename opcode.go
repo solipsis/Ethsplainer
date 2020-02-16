@@ -11,12 +11,12 @@ type opcodeParser struct{}
 
 func (o *opcodeParser) understands(s string) bool {
 	// TODO: not foolproof
-	return strings.HasPrefix(s, "6080")
+	return strings.HasPrefix(strings.TrimPrefix(s, "0x"), "6080")
 }
 
 func (o *opcodeParser) parse(s string) ([]token, error) {
 
-	buf, err := hex.DecodeString(s)
+	buf, err := hex.DecodeString(strings.TrimPrefix(s, "0x"))
 	if err != nil {
 		return nil, errors.New("Not valid hex")
 	}
