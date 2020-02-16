@@ -51,7 +51,6 @@ const Home = () => {
     const [input, setInput] = useState('')
     const [errorState, setErrorState] = useState(false)
     const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
-    const [hover, setHover] = useState(false)
     const [vitalik, setVitalik] = useState(false)
 
 
