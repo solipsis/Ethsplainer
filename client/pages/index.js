@@ -180,7 +180,7 @@ const Home = () => {
                                                     color={rainbowColors[index % 7]}
                                                     opacity={!displayToken || displayToken === tokenObj ? '1': '0.4'}
                                                     onMouseEnter={() => {
-                                                        tokenObj.colorIndex = index
+                                                        tokenObj.colorIndex = index % 7
                                                         setHover(true)
                                                         setDisplayToken(tokenObj)
                                                     }}
