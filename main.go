@@ -14,6 +14,7 @@ type token struct {
 	Description string `json:"description"`
 	FlavorText  string `json:"flavorText"`
 	Value       string `json:"value"`
+	Type        string `json:"type"`
 }
 
 type request struct {
@@ -62,6 +63,7 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 	xpub := xpubParser{}
 	op := opcodeParser{}
 
+	var typ = "XPUB (Base58 decoded)"
 	switch {
 
 	case eth.understands(req.Input):
@@ -80,15 +82,12 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Parse error: %v\n", err)
 	}
 
-	test := struct {
-		Tokens []token
-		Type   string
-	}{
-		Tokens: toks,
-		Type:   "XPUB (Base58 decoded)",
+	// Hackathon jank
+	for i := range toks {
+		toks[i].Type = typ
 	}
 
-	res, err := json.MarshalIndent(test, "", "	")
+	res, err := json.MarshalIndent(toks, "", "	")
 	if err != nil {
 		panic(err)
 	}
