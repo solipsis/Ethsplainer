@@ -119,8 +119,8 @@ const Home = () => {
         <>
             <Container title='EthSplainer 2.0' rounded>
                 <Box>
-                    <Stack spacing={10} py={16}>
-                        <Box d={page === 0 ? 'block' : 'none'}>
+                    <Stack spacing={10} py={16} >
+                        <Box d={page === 0 ? 'block' : 'none'} fontSize={16}>
                             <Stack spacing={8} align='center'>
                                 <Flex justify='center' ml={-32}>
                                     <Image
@@ -152,33 +152,30 @@ const Home = () => {
                                 </Flex>
                             </Stack>
                         </Box>
-                        <Box d={page === 1 ? 'inline' : 'none'} w='full'>
+                        <Box d={page === 1 ? 'inline' : 'none'} w='full' fontSize={12}>
                             <Stack spacing={10}>
-                                <Flex wordBreak='break-all'>
-                                    <Flex justify='space-between' fontSize={24}>
-                                        <Container title={inputType ? inputType : ''} rounded>
-                                            {response ? map(response, (tokenObj, index) => {
-                                                return (
-                                                    <PseudoBox
-                                                        as='text'
-                                                        key={index}
-                                                        fontSize={16}
-                                                        font='inherit'
-                                                        color={rainbowColors[index % 7]}
-                                                        onMouseEnter={() => setDisplayToken(tokenObj)}
-                                                        onMouseLeave={() => setDisplayToken(null)}
-                                                        onClick={() => pushToPinned(tokenObj)}
-                                                        _hover={{ color: 'blue.500', cursor: 'pointer' }}
-                                                    >
-                                                        {tokenObj.token}
-                                                    </PseudoBox>
-                                                )}
-                                            ) : null}
-                                        </Container>
-                                        <Box w='100%'>
-                                            <Button primary onClick={() => goBack()} >Back</Button>
-                                        </Box>
-                                    </Flex>
+                                <Flex wordBreak='break-all' justify='space-between'>
+                                    <Container title={inputType ? inputType : ''} rounded>
+                                        {response ? map(response, (tokenObj, index) => {
+                                            return (
+                                                <PseudoBox
+                                                    as='text'
+                                                    key={index}
+                                                    font='inherit'
+                                                    color={rainbowColors[index % 7]}
+                                                    onMouseEnter={() => setDisplayToken(tokenObj)}
+                                                    onMouseLeave={() => setDisplayToken(null)}
+                                                    onClick={() => pushToPinned(tokenObj)}
+                                                    _hover={{ color: 'blue.500', cursor: 'pointer' }}
+                                                >
+                                                    {tokenObj.token}
+                                                </PseudoBox>
+                                            )}
+                                        ) : null}
+                                    </Container>
+                                    <Box w='22%'>
+                                        <Button primary onClick={() => goBack()}>Back</Button>
+                                    </Box>
                                 </Flex>
                                 <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
                                     <Box color='red.500' pl={4}>
@@ -203,7 +200,7 @@ const Home = () => {
                                          )}
                                     </Box>
                                 </Container>
-                                <Stack mt={16} spacing={16} justify='center'>
+                                <Stack mt={4} spacing={4} justify='center'>
                                     {pinnedObjects.map((obj, index) => {
                                         return (
                                             <Box>
