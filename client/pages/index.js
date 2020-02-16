@@ -154,7 +154,7 @@ const Home = () => {
                                     size={64}
                                     fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                                 />
-                                <InputGroup>
+                                <Flex direction='row'>
                                     <Input
                                         w={500}
                                         varient='filled'
@@ -163,12 +163,10 @@ const Home = () => {
                                         onChange={handleChange}
                                         value={input}
                                     />
-                                    <InputRightElement>
-                                        <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
-                                            Get
-                                        </Button>
-                                    </InputRightElement>
-                                </InputGroup>
+                                    <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
+                                        Get
+                                    </Button>
+                                </Flex>
                             </Flex>
                         </Box>
                         <Box d={page === 1 ? 'block' : 'none'}>
