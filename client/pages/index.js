@@ -102,6 +102,7 @@ const Home = () => {
 
     const getTxDetails = useCallback(async (input) => {
         try {
+            if(!input) input = 'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
             const goResponse = await axios.post('http://localhost:8080', { input })
             console.log({ responseData: goResponse.data })
             setResponse(get(goResponse, 'data'))
