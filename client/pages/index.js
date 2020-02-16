@@ -166,7 +166,10 @@ const Home = () => {
                                                     font='inherit'
                                                     color={rainbowColors[index % 7]}
                                                     opacity={!displayToken || displayToken === tokenObj ? '1': '0.4'}
-                                                    onMouseEnter={() => setDisplayToken(tokenObj)}
+                                                    onMouseEnter={() => {
+                                                        tokenObj.colorIndex = index
+                                                        setDisplayToken(tokenObj)
+                                                    }}
                                                     onMouseLeave={() => setDisplayToken(null)}
                                                     onClick={() => pushToPinned(tokenObj, index)}
                                                     _hover={{ color: `${rainbowColors[index % 7]}`, cursor: 'pointer' }}
@@ -181,13 +184,13 @@ const Home = () => {
                                     </Box>
                                 </Flex>
                                 <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
-                                    <Box color='red.500' pl={4}>
+                                    <Box color='rgb(33, 37, 41);' pl={4}>
                                         {displayToken ? (
                                             <>
-                                                <Box>
+                                                <Box color={rainbowColors[displayToken.colorIndex]}>
                                                     {displayToken.value}
                                                 </Box>
-                                                <Box>
+                                                <Box color={rainbowColors[displayToken.colorIndex]}>
                                                     {displayToken.description}
                                                 </Box>
                                             </>
