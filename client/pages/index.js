@@ -85,8 +85,8 @@ const Home = () => {
     }, [response])
 
     const pushToPinned = useCallback((tokenObj) => {
-        const obj = find(response, r => r.token === tokenObj.token)
-        const existingObj = find(pinnedObjects, obj => obj.token === tokenObj.token)
+        const obj = find(response, r => r.token === tokenObj.token && r.description === tokenObj.description)
+        const existingObj = find(pinnedObjects, obj => obj.token === tokenObj.token && obj.description === tokenObj.description)
         if (existingObj) return
         const newPinnedObjects = concat(obj, pinnedObjects)
         setPinnedObjects(newPinnedObjects)
