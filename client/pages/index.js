@@ -127,7 +127,7 @@ const Home = () => {
     }, [])
 
     return (
-        <>
+        <Box m={8}>
             <Container title='EthSplainer 2.0' rounded>
                 <Box pb={10}>
                     <Stack spacing={10} >
@@ -277,7 +277,7 @@ const Home = () => {
                 rel="stylesheet"
             />
             <title>EthSplainer 2.0</title>
-        </>
+        </Box>
     )
 }
 
