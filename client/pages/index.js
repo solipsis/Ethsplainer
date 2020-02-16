@@ -81,6 +81,7 @@ const Home = () => {
             if(obj) {
                 setInputType(obj.type)
             }
+            setPinnedObjects([])
         }
     }, [response])
 
