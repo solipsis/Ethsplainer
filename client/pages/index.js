@@ -119,6 +119,7 @@ const Home = () => {
     }, [input])
 
     const goBack = useCallback(() => {
+        setInput('')
         setPage(0)
     }, [])
 
