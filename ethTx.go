@@ -181,7 +181,7 @@ func genToken(val interface{}, f EthField) []token {
 			value = ""
 		} else {
 			desc = "The address of the user account or contract to interact with."
-			value = "0x" + hex.EncodeToString(body[:20]) + "..."
+			value = "0x" + hex.EncodeToString(body[:20])
 		}
 	case VALUE:
 		title = "Value"
