@@ -165,7 +165,7 @@ const Home = () => {
                                 </Flex>
                                 <Box>
                                     <Container rounded>
-                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4}>
+                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4} fontSize={13}>
                                             <Box>
                                                 Or click one of the examples below to populate the input.
                                             </Box>
