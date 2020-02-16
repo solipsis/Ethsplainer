@@ -104,7 +104,7 @@ func bytesToInt(buf []byte) *big.Int {
 	{
 		"token": "0488b21e",
 		"title": "Version",
-		"description": "The verison gives information into what kind of key is encoded.",
+		"description": "The version gives information into what kind of key is encoded.",
 		"flavorText": "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
 		"value": "76067358"
 	},
