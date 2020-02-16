@@ -84,8 +84,9 @@ const Home = () => {
         }
     }, [response])
 
-    const pushToPinned = useCallback((tokenObj) => {
+    const pushToPinned = useCallback((tokenObj, index) => {
         const obj = find(response, r => r.token === tokenObj.token && r.description === tokenObj.description)
+        obj.colorIndex = index % 7
         const existingObj = find(pinnedObjects, obj => obj.token === tokenObj.token && obj.description === tokenObj.description)
         if (existingObj) return
         const newPinnedObjects = concat(obj, pinnedObjects)
@@ -164,10 +165,11 @@ const Home = () => {
                                                     key={index}
                                                     font='inherit'
                                                     color={rainbowColors[index % 7]}
+                                                    opacity={!displayToken || displayToken === tokenObj ? '1': '0.4'}
                                                     onMouseEnter={() => setDisplayToken(tokenObj)}
                                                     onMouseLeave={() => setDisplayToken(null)}
-                                                    onClick={() => pushToPinned(tokenObj)}
-                                                    _hover={{ color: 'blue.500', cursor: 'pointer' }}
+                                                    onClick={() => pushToPinned(tokenObj, index)}
+                                                    _hover={{ color: `${rainbowColors[index % 7]}`, cursor: 'pointer' }}
                                                 >
                                                     {tokenObj.token}
                                                 </PseudoBox>
@@ -203,15 +205,18 @@ const Home = () => {
                                 </Container>
                                 <Stack mt={4} spacing={4} justify='center'>
                                     {pinnedObjects.map((obj, index) => {
+                                        console.log(obj)
                                         return (
                                             <Box>
                                                 <Container width='100%' rounded title={obj.title}>
                                                     <Flex direction='row' justify='space-between'>
                                                         <Flex direction='column'>
-                                                            <Box color={rainbowColors[index + 1]}>{obj.value}</Box>
-                                                            <Box color={rainbowColors[index + 1]}>{obj.description}</Box>
+                                                            <Box color={rainbowColors[obj.colorIndex]}>{obj.value}</Box>
+                                                            <Box color={rainbowColors[obj.colorIndex]}>{obj.description}</Box>
                                                         </Flex>
-                                                        <Button error onClick={() => filterFromPinned(index)}>Close</Button>
+                                                        <Box mt={-6} mr={2} w={3} fontSize={8}>
+                                                            <Button error onClick={() => filterFromPinned(index)}>X</Button>
+                                                        </Box>
                                                     </Flex>
                                                 </Container>
                                             </Box>
