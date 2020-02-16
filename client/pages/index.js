@@ -6,7 +6,8 @@ import {
     concat,
     filter,
     find,
-    get
+    get,
+    map
 } from 'lodash'
 import {
     Box,
@@ -33,25 +34,21 @@ const App = () => {
 }
 
 const rainbowColors = {
-    1: 'pink.400',
-    2: 'red.400',
-    3: 'orange.400',
-    4: 'yellow.400',
-    5: 'green.400',
-    6: 'blue.400',
-    7: 'purple.400'
+    0: 'pink.400',
+    1: 'red.400',
+    2: 'orange.400',
+    3: 'yellow.400',
+    4: 'green.400',
+    5: 'blue.400',
+    6: 'purple.400',
 }
-//     {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
+// xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz
+
+// 0xf88738843b9aca0082785394030c09afd8a0e756d114bfb8c8446fbb80e3831180a443bb3608000000000000000000000000000000000000000000000000000000005e487ead26a04e8cab72974de24e13d07c3dec4ab5970519b9441b7d736018045963ba0783fda019c87ecd75abe3e9eaca66023153315addd5628da40dc96a43c6fbb5457753cb
 
 const Home = () => {
     const [response, setResponse] = useState()
-    const [version, setVersion] = useState()
-    const [depth, setDepth] = useState()
-    const [fingerprint, setFingerprint] = useState()
     const [index, setIndex] = useState()
-    const [chaincode, setChaincode] = useState()
-    const [keydata, setKeydata] = useState()
-    const [checksum, setChecksum] = useState()
     const [displayToken, setDisplayToken] = useState('')
     const [displayText, setDisplayText] = useState('')
     const [pinnedDescriptons, setPinnedDescriptions] = useState([])
@@ -64,31 +61,12 @@ const Home = () => {
         const getResponse = async () => {
             try {
                 await axios.options('http://localhost:8080')
-                // const response = await axios.post('http://localhost:8080',
-                //     {"input":"xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz"}
-                // )
-                // if (xpub) {
-
-                // }
-                // const response = await axios.post('http://localhost:8080', {"input": xPub})
-                // console.log({ response })
-                // setResponse(get(response, 'data'))
             } catch (err) {
                 console.log({ err })
-                // setResponse(mockResponse)
             }
         }
         getResponse()
-        if (response) {
-            setVersion(getTokenFromTitle('Version'))
-            setDepth(getTokenFromTitle('Depth'))
-            setFingerprint(getTokenFromTitle('Fingerprint'))
-            setIndex(getTokenFromTitle('Index'))
-            setChaincode(getTokenFromTitle('Chaincode'))
-            setKeydata(getTokenFromTitle('Keydata'))
-            setChecksum(getTokenFromTitle('Checksum'))
-        }
-    }, [response])
+    }, [])
 
     useEffect(() => {
         if(response) {
@@ -123,7 +101,7 @@ const Home = () => {
                 onMouseEnter={() => setDisplayToken(token)}
                 onMouseLeave={() => setDisplayToken('')}
                 onClick={() => pushToPinned(token)}
-                _hover={{ color: 'teal.900', cursor: 'pointer' }}
+                _hover={{ color: 'blue.500', cursor: 'pointer' }}
             >
                 {token}
             </PseudoBox>
@@ -140,7 +118,7 @@ const Home = () => {
         try {
             console.log({ input })
             const response = await axios.post('http://localhost:8080', { "input": input.toString() })
-            console.log({ responseData: response.data})
+            console.log({ responseData: response.data })
             setResponse(get(response, 'data'))
         } catch (err) {
             console.log(err)
@@ -148,7 +126,7 @@ const Home = () => {
     }, [input])
 
     return (
-        <Box bg='blue.900' mx={-8} mt={-8} mb={-64}>
+        <Box bg='teal.900' mx={-8} mt={-8} mb={-64}>
             <Stack spacing={10} py={16} px={64}>
                 <Text textAlign='center' color='blue.500' fontSize={64} fontWeight='bold'>EthSplainer 2.0</Text>
                 <Flex justify='space-around' align='center'>
@@ -175,13 +153,11 @@ const Home = () => {
                 </Flex>
                 <Flex wordBreak='break-all'>
                     <Text fonstSize={24}>
-                        <TokenBox color={rainbowColors[1]}>{version}</TokenBox>
-                        <TokenBox color={rainbowColors[2]}>{depth}</TokenBox>
-                        <TokenBox color={rainbowColors[3]}>{fingerprint}</TokenBox>
-                        <TokenBox color={rainbowColors[4]}>{index}</TokenBox>
-                        <TokenBox color={rainbowColors[5]}>{chaincode}</TokenBox>
-                        <TokenBox color={rainbowColors[6]}>{keydata}</TokenBox>
-                        <TokenBox color={rainbowColors[7]}>{checksum}</TokenBox>
+                        {map(response, (tokenObj, index) => {
+                            return (
+                                <TokenBox key={index} color={rainbowColors[index % 7]}>{tokenObj.token}</TokenBox>
+                            )
+                        } )}
                     </Text>
                 </Flex>
                 <Flex
