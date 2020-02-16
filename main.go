@@ -63,16 +63,18 @@ func handleData(w http.ResponseWriter, r *http.Request) {
 	xpub := xpubParser{}
 	op := opcodeParser{}
 
-	var typ = "XPUB (Base58 decoded)"
+	var typ string
 	switch {
 
 	case eth.understands(req.Input):
 		toks, err = eth.parse(req.Input)
+		typ = "Eth Transaction"
 	case xpub.understands(req.Input):
 		toks, err = xpub.parse(req.Input)
+		typ = "XPUB (Base58 decoded)"
 	case op.understands(req.Input):
 		toks, err = op.parse(req.Input)
-
+		typ = "EVM Opcodes"
 	default:
 		w.Write([]byte("Sorry, I down Understand this format"))
 		return

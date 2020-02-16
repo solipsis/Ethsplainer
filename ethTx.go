@@ -86,13 +86,23 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	// TODO: probaly some edge case i'm missing
 	prefix := buf[0]
 	l := prefix - 0xf7
+	llen := buf[1 : 1+l]
 	pre := token{
 		Token:       hex.EncodeToString(buf[0:l]),
 		Title:       "RLP Prefix",
-		Description: "RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.",
+		Description: fmt.Sprintf("RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.\nThis is an RLP 'list' with total length > 55 bytes.\n The first byte (0x%x - 0xF7) tells us the length of the length (%d bytes).\nThe actual length of the list in bytes is %s bytes (0x%x)", prefix, l, bytesToInt(llen), llen),
 		Value:       hex.EncodeToString(buf[0:l]),
 	}
 	toks = append(toks, pre)
+
+	/*
+			tok := &token{
+			Token:       hex.EncodeToString(enc[:1+l]),
+			Title:       "RLP Length Prefix",
+			Description: fmt.Sprintf("This is an RLP 'string' with length > 55 bytes.\nThe first byte (0x%x-0xB7) tells us the length of the length (%d bytes).\nThe actual field length is %s bytes (0x%x)", prefix, l, bytesToInt(fieldLen).String(), fieldLen),
+			Value:       hex.EncodeToString(enc[:1+l]),
+		}
+	*/
 
 	// add the other fields and their rlp prefixes
 	toks = append(toks, genToken(tx.Nonce(), NONCE)...)
