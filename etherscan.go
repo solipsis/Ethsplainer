@@ -30,9 +30,11 @@ func etherscanCrawlRaw(tx string) string {
 			res += string(str[i])
 			i++
 		}
+		fmt.Println("Etherscan trim", res)
 		str = str[i:]
 		if len(res) > 100 {
 			_, err := hex.DecodeString(strings.TrimSpace(res[2:]))
+
 			if err == nil {
 				return strings.TrimSpace(res)
 			}

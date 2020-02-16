@@ -63,7 +63,8 @@ const Home = () => {
     useEffect(() => {
         const getResponse = async () => {
             try {
-                await axios.options('http://localhost:8080')
+                //await axios.options('http://localhost:8080')
+                await axios.options('https://calm-thicket-60588.herokuapp.com/')
             } catch (err) {
                 console.log({ err })
             }
@@ -101,7 +102,8 @@ const Home = () => {
     const getTxDetails = useCallback(async (input) => {
         try {
             if(!input) input = 'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
-            const goResponse = await axios.post('http://localhost:8080', { input })
+            //const goResponse = await axios.post('http://localhost:8080', { input })
+            const goResponse = await axios.post('https://calm-thicket-60588.herokuapp.com/', { input })
             console.log({ responseData: goResponse.data })
             if (typeof get(goResponse, 'data', null) === 'string') {
                 setErrorState(true)
