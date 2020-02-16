@@ -91,7 +91,7 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 		Token:       hex.EncodeToString(buf[0 : 1+l]),
 		Title:       "RLP Prefix",
 		Description: fmt.Sprintf("RLP is an encoding/decoding algorithm that helps Ethereum to serialize data.\nThis is an RLP 'list' with total length > 55 bytes.\n The first byte (0x%x - 0xF7) tells us the length of the length (%d bytes).\nThe actual length of the list in bytes is %s bytes (0x%x).", prefix, l, bytesToInt(llen), llen),
-		Value:       hex.EncodeToString(buf[0 : 1+l]),
+		Value:       "0x" + hex.EncodeToString(buf[0:1+l]),
 	}
 	toks = append(toks, pre)
 
@@ -250,7 +250,7 @@ func addRLPToken(enc []byte) (*token, int) {
 			Token:       hex.EncodeToString([]byte{prefix}),
 			Title:       "RLP Length Prefix",
 			Description: fmt.Sprintf("RLP Length Prefix. The next field is an RLP 'string' of length %d (0x%x - 0x80).", int(prefix)-0x80, prefix),
-			Value:       hex.EncodeToString([]byte{prefix}),
+			Value:       "0x" + hex.EncodeToString([]byte{prefix}),
 		}
 		return tok, len(enc) - (int(prefix) - 0x80)
 	// rlp "string" with length > 55 bytes
@@ -263,7 +263,7 @@ func addRLPToken(enc []byte) (*token, int) {
 			Token:       hex.EncodeToString(enc[:1+l]),
 			Title:       "RLP Length Prefix",
 			Description: fmt.Sprintf("This is an RLP 'string' with length > 55 bytes.\nThe first byte (0x%x-0xB7) tells us the length of the length (%d bytes).\nThe actual field length is %s bytes (0x%x).", prefix, l, bytesToInt(fieldLen).String(), fieldLen),
-			Value:       hex.EncodeToString(enc[:1+l]),
+			Value:       "0x" + hex.EncodeToString(enc[:1+l]),
 		}
 		return tok, 1 + len(fieldLen)
 	default:
