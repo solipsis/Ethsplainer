@@ -139,7 +139,7 @@ const Home = () => {
 
     return (
     <>
-        <Box bg='teal.900' mx={-8} mt={-8} mb={-64} style={{class: font-face}}>
+        <Box bg='teal.900' mx={-8} mt={-8} mb={-64}>
             <Stack spacing={10} py={16} px={64}>
                 <Text textAlign='center' color='blue.500' fontSize={64} fontWeight='bold'>EthSplainer 2.0</Text>
                 <Flex justify='space-around' align='center'>
