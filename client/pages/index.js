@@ -163,30 +163,33 @@ const Home = () => {
                                         Learn
                                     </Button>
                                 </Flex>
-
-                                <Stack ml={8} justifyContent='center' alignItems='center' spacing={4}>
-                                    <Box>
-                                        Or click one of the examples below to populate the input.
-                                    </Box>
-                                    <PseudoBox
-                                        _hover={{ cursor: 'pointer' }}
-                                        onClick={() => setInput('0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af')}
-                                    >
-                                        {'* Eth Tx Hash: 0xc45367afb9...'}
-                                    </PseudoBox>
-                                    <PseudoBox
-                                        _hover={{ cursor: 'pointer' }}
-                                        onClick={() => setInput('0xf86c2285012a05f2008252089490e9ddd9d8d5ae4e3763d0cf856c97594dea7325884431a977b29170008026a02f92f54ad283f2cc962f22be7d12d6fff8c9ad51b04b8fc6c60a1f791ca4627ea00120aa6101d4207c15c13128fa3162e824d518466027f860d4a4eb534ae68634')}
-                                    >
-                                        {'* Raw Tx Hex: 0xf86c2285012...'}
-                                    </PseudoBox>
-                                    <PseudoBox
-                                        _hover={{ cursor: 'pointer' }}
-                                        onClick={() => setInput('60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029')}
-                                    >
-                                        {'* EVM Opcodes: 0x6080604052...'}
-                                    </PseudoBox>
-                                </Stack>
+                                <Box>
+                                    <Container rounded>
+                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4}>
+                                            <Box>
+                                                Or click one of the examples below to populate the input.
+                                            </Box>
+                                            <PseudoBox
+                                                _hover={{ cursor: 'pointer' }}
+                                                onClick={() => setInput('0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af')}
+                                            >
+                                                {'* Eth Tx Hash: 0xc45367afb9...'}
+                                            </PseudoBox>
+                                            <PseudoBox
+                                                _hover={{ cursor: 'pointer' }}
+                                                onClick={() => setInput('0xf86c2285012a05f2008252089490e9ddd9d8d5ae4e3763d0cf856c97594dea7325884431a977b29170008026a02f92f54ad283f2cc962f22be7d12d6fff8c9ad51b04b8fc6c60a1f791ca4627ea00120aa6101d4207c15c13128fa3162e824d518466027f860d4a4eb534ae68634')}
+                                            >
+                                                {'* Raw Tx Hex: 0xf86c2285012...'}
+                                            </PseudoBox>
+                                            <PseudoBox
+                                                _hover={{ cursor: 'pointer' }}
+                                                onClick={() => setInput('60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029')}
+                                            >
+                                                {'* EVM Opcodes: 0x6080604052...'}
+                                            </PseudoBox>
+                                        </Stack>
+                                    </Container>
+                                </Box>
                                 <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
                                     {errorText}
                                 </Flex>
