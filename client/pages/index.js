@@ -11,9 +11,7 @@ import {
 } from 'lodash'
 import {
     Box,
-    Button,
     Flex,
-    Icon,
     Image,
     Input,
     InputGroup,
@@ -23,6 +21,20 @@ import {
     Text,
     ThemeProvider
 } from '@chakra-ui/core'
+import {
+    Avatar,
+    Balloon,
+    Button,
+    Checkbox, 
+    Container,
+    Icon,
+    List,
+    Progress, 
+    Radios, 
+    TextArea,
+    TextInput
+} from 'nes-react'
+
 import mockResponse from '../mock/response.json'
 
 const App = () => {
@@ -126,7 +138,8 @@ const Home = () => {
     }, [input])
 
     return (
-        <Box bg='teal.900' mx={-8} mt={-8} mb={-64}>
+    <>
+        <Box bg='teal.900' mx={-8} mt={-8} mb={-64} style={{class: font-face}}>
             <Stack spacing={10} py={16} px={64}>
                 <Text textAlign='center' color='blue.500' fontSize={64} fontWeight='bold'>EthSplainer 2.0</Text>
                 <Flex justify='space-around' align='center'>
@@ -193,6 +206,8 @@ const Home = () => {
                 })}
             </Stack>
         </Box>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+    </>    
     )
 }
 
