@@ -121,9 +121,7 @@ func (e *ethTxParser) parse(s string) ([]token, error) {
 	toks = append(toks, genToken(sigR.Bytes(), SIG_R)...)
 	toks = append(toks, genToken(sigS.Bytes(), SIG_S)...)
 
-	return toks,
-
-		nil
+	return toks, nil
 }
 
 func genToken(val interface{}, f EthField) []token {
@@ -144,7 +142,7 @@ func genToken(val interface{}, f EthField) []token {
 	// strip bytes that were part of the RLP prefix
 	body := enc[prefixLen:]
 
-	fmt.Printf("prefixLen: %d, enc: %s, res: %s\n", prefixLen, hex.EncodeToString(enc), hex.EncodeToString(body))
+	//fmt.Printf("prefixLen: %d, enc: %s, res: %s\n", prefixLen, hex.EncodeToString(enc), hex.EncodeToString(body))
 
 	// Add token for actual field
 	var (
@@ -161,18 +159,18 @@ func genToken(val interface{}, f EthField) []token {
 		if rlpTok == nil && body[0] == 0x80 {
 			value = "0 (0x80) is the RLP encoded version of zero"
 		} else {
-			value = bytesToInt(body).String()
+			value = fmt.Sprintf("%s (0x%x)", bytesToInt(body).String(), body)
 		}
 	case GAS_PRICE:
 		title = "Gas Price"
 		desc = "The price of gas (in wei) that the sender is willing to pay."
 		longDesc = ""
-		value = "0x" + bytesToInt(body).String()
+		value = fmt.Sprintf("%s (0x%x)", bytesToInt(body).String(), body)
 	case GAS_LIMIT:
 		title = "Gas Limit"
 		desc = "The maximum amount of gas the originator is willing to pay for this transaction."
 		longDesc = ""
-		value = "0x" + bytesToInt(body).String()
+		value = fmt.Sprintf("%s (0x%x)", bytesToInt(body).String(), body)
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
@@ -188,9 +186,9 @@ func genToken(val interface{}, f EthField) []token {
 		desc = "Amount of Eth in wei"
 		longDesc = "The amount of ether (in wei) to send to the recipient address."
 		if rlpTok == nil && body[0] == 0x80 {
-			value = "0"
+			value = "0 Wei"
 		} else {
-			value = bytesToInt(body).String()
+			value = bytesToInt(body).String() + " Wei"
 		}
 	case DATA:
 		title = "Data"
