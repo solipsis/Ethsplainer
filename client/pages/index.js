@@ -142,7 +142,7 @@ const Home = () => {
                                         </Balloon>
                                     </Box>
                                 </Flex>
-                                <Flex direction='row' align='center' ml={10}>
+                                <Flex direction='row' align='center'>
                                     <Box w={700} fontSize='0.75rem'>
                                         <TextInput
                                             style={{ height: '2.75rem' }}
