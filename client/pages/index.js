@@ -228,7 +228,7 @@ const Home = () => {
                                     </Box>
                                 </Flex>
                                 <Box display={displayToken || get(pinnedObjects, 'length', 0) === 0 ? 'block' : 'none'}>
-                                    <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Tx')}>
+                                    <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Data Field')}>
                                         <Box color='rgb(33, 37, 41);' pl={4}>
                                             {displayToken ? (
                                                 <Box>
