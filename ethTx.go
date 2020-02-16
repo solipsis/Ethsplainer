@@ -149,7 +149,11 @@ func genToken(val interface{}, f EthField) []token {
 		title = "Nonce"
 		desc = "The nonce is an incrementing sequence number used to prevent message replay."
 		longDesc = ""
-		value = bytesToInt(body).String()
+		if rlpTok == nil {
+			value = "0 (0x80) is the RLP encoded version of zero"
+		} else {
+			value = bytesToInt(body).String()
+		}
 	case GAS_PRICE:
 		title = "Gas Price"
 		desc = "The price of gas (in wei) that the sender is willing to pay."
@@ -163,19 +167,35 @@ func genToken(val interface{}, f EthField) []token {
 	case RECIPIENT:
 		// TODO: edgecase for contract create
 		title = "Recipient"
-		desc = "The address of the user account or contract to interact with."
-		longDesc = ""
-		value = "Address or contract creation thing"
+		if rlpTok == nil {
+			desc = "The recipient field is empty. This signifies that this is a special call to Create a contract"
+			value = ""
+		} else {
+			desc = "The address of the user account or contract to interact with."
+			value = "0x" + hex.EncodeToString(body[:20]) + "..."
+		}
 	case VALUE:
 		title = "Value"
 		desc = "Amount of Eth in wei"
 		longDesc = "The amount of ether (in wei) to send to the recipient address."
-		value = bytesToInt(body).String()
+		if rlpTok == nil {
+			value = "0"
+		} else {
+			value = bytesToInt(body).String()
+		}
 	case DATA:
 		title = "Data"
 		desc = "Data being sent to a contract function. The first 4 bytes are known as the 'function selector'."
 		longDesc = ""
-		value = "" //TODO: Fill this in?
+		if rlpTok == nil {
+			value = "No Data"
+		} else {
+			if len(body) > 20 {
+				value = "0x" + hex.EncodeToString(body[:20]) + "..."
+			} else {
+				value = "0x" + hex.EncodeToString(body)
+			}
+		}
 	case SIG_V:
 		title = "Signature V"
 		desc = "Indicates both the chainID of the transaction and the parity (odd or even) of the y component of the public key."
@@ -214,7 +234,8 @@ func addRLPToken(enc []byte) (*token, int) {
 	prefix := enc[0]
 	switch {
 	// single byte value that would already have been added in previous step
-	case prefix < 0x80:
+	// technically not correct to include 0x80 but makes other code cleaner
+	case prefix <= 0x80:
 		return nil, 0
 	// rlp "string" with length 0-55 bytes
 	case prefix < 0xB8:
