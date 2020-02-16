@@ -30,6 +30,15 @@ type ethTxParser struct{}
 func (e *ethTxParser) understands(s string) bool {
 	tx := &types.Transaction{}
 
+	// hacky we got a txID and need to look up the raw txn
+	if len(s) == len("0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af") {
+		raw := etherscanCrawlRaw(s)
+		if len(raw) > 20 {
+			return true
+		}
+		return false
+	}
+
 	rawTx := strings.TrimPrefix(s, "0x")
 	buf, err := hex.DecodeString(rawTx)
 	if err != nil {
@@ -49,8 +58,16 @@ func (e *ethTxParser) understands(s string) bool {
 func (e *ethTxParser) parse(s string) ([]token, error) {
 
 	tx := &types.Transaction{}
+	var rawTx string
 
-	rawTx := strings.TrimPrefix(s, "0x")
+	// hacky we got a txID and need to look up the raw txn
+	// TODO: need to deal with network failure for etherscan
+	if len(s) == len("0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af") {
+		rawTx = strings.TrimPrefix(etherscanCrawlRaw(s), "0x")
+	} else {
+		rawTx = strings.TrimPrefix(s, "0x")
+	}
+
 	buf, err := hex.DecodeString(rawTx)
 	if err != nil {
 		return nil, err
