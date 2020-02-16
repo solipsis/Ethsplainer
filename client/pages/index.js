@@ -120,7 +120,7 @@ const Home = () => {
 
     return (
         <>
-            <Container title='EthSplainer 2.0' rounded style={{ height : "100vh" }}>
+            <Container title='EthSplainer 2.0' rounded style={{ height : "98vh" }}>
                 <Box>
                     <Stack spacing={10} py={16} >
                         <Box d={page === 0 ? 'block' : 'none'} fontSize={16}>
