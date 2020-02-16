@@ -13,7 +13,6 @@ import {
     Box,
     Button,
     Flex,
-    Icon,
     Image,
     Input,
     InputGroup,
@@ -24,7 +23,11 @@ import {
     ThemeProvider
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
-import { Container } from 'nes-react'
+import {
+    Balloon,
+    Container,
+    Icon
+} from 'nes-react'
 
 
 const App = () => {
@@ -138,23 +141,27 @@ const Home = () => {
 
     return (
         <>
-            <Container>
-                <Box font='inherit' bg='teal.900' mx={-8} mt={-8} mb={-64}>
+            <Container title='EthSplainer 2.0'>
+                <Box  bg='transparent' mx={-8} mb={-64}>
                     <Flex justify='flex-end'>
                         <Icon pt={16} size={12} pr={32} name='arrow-back' color='blue.900' display={page === 1 ? 'block' : 'none'} onClick={() => goBack()} />
                     </Flex>
-                    <Box textAlign='center' color='blue.500' fontSize={36} textAlign='center'>
-                        <span font='inherit' >EthSplainer 2.0</span>
-                    </Box>
-                    <Stack spacing={10} py={16} px={64}>
+                    <Stack spacing={10} py={16}>
                         <Box d={page === 0 ? 'block' : 'none'}>
-                            <Flex justify='space-around' align='center'>
-                                <Image
-                                    src='/assets/pegabufficorn.png'
-                                    size={64}
-                                    fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
-                                />
-                                <Flex direction='row'>
+                            <Stack spacing={8} align='center'>
+                                <Flex justify='center' ml={-32}>
+                                    <Image
+                                        src='/assets/pegabufficorn.png'
+                                        size={64}
+                                        fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
+                                        />
+                                    <Box mb={32} w={32}>
+                                        <Balloon fromLeft >
+                                            <span>What Can I Help You Understand?</span>
+                                        </Balloon>
+                                    </Box>
+                                </Flex>
+                                <Flex direction='row' align='center' ml={10}>
                                     <Input
                                         w={500}
                                         varient='filled'
@@ -163,11 +170,11 @@ const Home = () => {
                                         onChange={handleChange}
                                         value={input}
                                     />
-                                    <Button onClick={() => getTxDetails(input)} varientColor='blue' mt={1} mr={1}>
+                                    <Button onClick={() => getTxDetails(input)} varientColor='blue'>
                                         Get
                                     </Button>
                                 </Flex>
-                            </Flex>
+                            </Stack>
                         </Box>
                         <Box d={page === 1 ? 'block' : 'none'}>
                             <Stack spacing={10}>
