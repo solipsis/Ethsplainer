@@ -11,15 +11,10 @@ import {
 } from 'lodash'
 import {
     Box,
-    // Button,
     Flex,
     Image,
-    // Input,
-    InputGroup,
-    InputRightElement,
     PseudoBox,
     Stack,
-    Text,
     ThemeProvider
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
@@ -151,8 +146,9 @@ const Home = () => {
                                     </Box>
                                 </Flex>
                                 <Flex direction='row' align='center' ml={10}>
-                                    <Box w={700}>
+                                    <Box w={700} fontSize='0.75rem'>
                                         <TextInput
+                                            style={{ height: '2.75rem' }}
                                             width='100%'
                                             varient='filled'
                                             placeholder=
