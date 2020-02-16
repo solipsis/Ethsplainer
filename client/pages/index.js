@@ -27,7 +27,6 @@ import {
     Button,
     Balloon,
     Container,
-    Icon,
     TextInput
 } from 'nes-react'
 
@@ -60,9 +59,14 @@ const Home = () => {
     const [pinnedObjects, setPinnedObjects] = useState([])
     const [page, setPage] = useState(0)
     const [input, setInput] = useState('')
+    const [errorState, setErrorState] = useState(false)
 
 
-    const handleChange = event => setInput(event.target.value)
+    const handleChange = event => {
+        setErrorState(false)
+        setPage(0)
+        setInput(event.target.value)
+    }
 
     useEffect(() => {
         const getResponse = async () => {
@@ -107,10 +111,14 @@ const Home = () => {
             if(!input) input = 'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
             const goResponse = await axios.post('http://localhost:8080', { input })
             console.log({ responseData: goResponse.data })
+            if (typeof get(goResponse, 'data', null) === 'string') {
+                setErrorState(true)
+            }
             setResponse(get(goResponse, 'data'))
             setPage(1)
         } catch (err) {
             console.log(`API err: ${err}`)
+            setResponse(mockResponse)
         }
     }, [input])
 
@@ -123,8 +131,8 @@ const Home = () => {
             <Container title='EthSplainer 2.0' rounded style={{ height : "98vh" }}>
                 <Box>
                     <Stack spacing={10} py={16} >
-                        <Box d={page === 0 ? 'block' : 'none'} fontSize={16}>
-                            <Stack spacing={8} align='center'>
+                        <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={16}>
+                            <Stack spacing={8} justify='center' align='center'>
                                 <Flex justify='center' ml={-32}>
                                     <Image
                                         src='/assets/pegabufficorn.png'
@@ -153,9 +161,12 @@ const Home = () => {
                                         Learn
                                     </Button>
                                 </Flex>
+                                <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
+                                    Sorry, I don't understand this format.
+                                </Flex>
                             </Stack>
-                        </Box>
-                        <Box d={page === 1 ? 'inline' : 'none'} w='full' fontSize={12}>
+                        </Flex>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12}>
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
@@ -209,7 +220,6 @@ const Home = () => {
                                 </Container>
                                 <Stack mt={4} spacing={4} justify='center'>
                                     {pinnedObjects.map((obj, index) => {
-                                        console.log(obj)
                                         return (
                                             <Box>
                                                 <Container width='100%' rounded title={obj.title}>
