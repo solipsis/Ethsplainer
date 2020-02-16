@@ -121,7 +121,7 @@ const Home = () => {
         } catch (err) {
             console.log(`API err: ${err}`)
             setErrorState(true)
-            setErrorText('Something went wrong. I\'m sorry.')
+            setErrorText('Something went wro ng. I\'m sorry.')
             setResponse(mockResponse)
         }
     }, [input])
@@ -250,6 +250,7 @@ const Home = () => {
                 href="https://fonts.googleapis.com/css?family=Press+Start+2P"
                 rel="stylesheet"
             />
+            <title>EthSplainer 2.0</title>
         </>
     )
 }
