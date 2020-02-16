@@ -11,10 +11,10 @@ import {
 } from 'lodash'
 import {
     Box,
-    Button,
+    // Button,
     Flex,
     Image,
-    Input,
+    // Input,
     InputGroup,
     InputRightElement,
     PseudoBox,
@@ -24,9 +24,11 @@ import {
 } from '@chakra-ui/core'
 import mockResponse from '../mock/response.json'
 import {
+    Button,
     Balloon,
     Container,
-    Icon
+    Icon,
+    TextInput
 } from 'nes-react'
 
 
@@ -99,23 +101,6 @@ const Home = () => {
     }, [response, pinnedDescriptons])
 
 
-    const TokenBox = ({ children: token, color }) => {
-        return (
-            <PseudoBox
-                as='text'
-                fontSize={16}
-                font='inherit'
-                color={color}
-                onMouseEnter={() => setDisplayToken(token)}
-                onMouseLeave={() => setDisplayToken(null)}
-                onClick={() => pushToPinned(token)}
-                _hover={{ color: 'blue.500', cursor: 'pointer' }}
-            >
-                {token}
-            </PseudoBox>
-        )
-    }
-
     const getTokenFromTitle = useCallback((title) => {
         if(response) {
             return get(find(response, r => r.title === title), 'token')
@@ -141,11 +126,8 @@ const Home = () => {
 
     return (
         <>
-            <Container title='EthSplainer 2.0'>
-                <Box  bg='transparent' mx={-8} mb={-64}>
-                    <Flex justify='flex-end'>
-                        <Icon pt={16} size={12} pr={32} name='arrow-back' color='blue.900' display={page === 1 ? 'block' : 'none'} onClick={() => goBack()} />
-                    </Flex>
+            <Container title='EthSplainer 2.0' rounded>
+                <Box>
                     <Stack spacing={10} py={16}>
                         <Box d={page === 0 ? 'block' : 'none'}>
                             <Stack spacing={8} align='center'>
@@ -162,63 +144,70 @@ const Home = () => {
                                     </Box>
                                 </Flex>
                                 <Flex direction='row' align='center' ml={10}>
-                                    <Input
-                                        w={500}
-                                        varient='filled'
-                                        placeholder='What can I help you understand?'
-                                        borderRadius={5}
-                                        onChange={handleChange}
-                                        value={input}
-                                    />
-                                    <Button onClick={() => getTxDetails(input)} varientColor='blue'>
-                                        Get
+                                    <Box w={700}>
+                                        <TextInput
+                                            width='100%'
+                                            varient='filled'
+                                            placeholder=
+                                            'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
+                                            borderRadius={5}
+                                            onChange={handleChange}
+                                            value={input}
+                                        />
+                                    </Box>
+                                    <Button success onClick={() => getTxDetails(input)} varientColor='blue'>
+                                        Learn
                                     </Button>
                                 </Flex>
                             </Stack>
                         </Box>
-                        <Box d={page === 1 ? 'block' : 'none'}>
+                        <Box d={page === 1 ? 'inline' : 'none'} w='full'>
                             <Stack spacing={10}>
                                 <Flex wordBreak='break-all'>
-                                    <Box fontSize={24}>
-                                        {map(response, (tokenObj, index) => {
-                                            return (
-                                                <TokenBox key={index} color={rainbowColors[index % 7]}>{tokenObj.token}</TokenBox>
-                                            )
-                                        } )}
-                                    </Box>
+                                    <Flex justify='space-between' fontSize={24}>
+                                        <Container title='Raw Data' rounded>
+                                            {map(response, (tokenObj, index) => {
+                                                return (
+                                                    <PseudoBox
+                                                        as='text'
+                                                        fontSize={16}
+                                                        font='inherit'
+                                                        color={rainbowColors[index % 7]}
+                                                        onMouseEnter={() => setDisplayToken(get(tokenObj, 'token'))}
+                                                        onMouseLeave={() => setDisplayToken(null)}
+                                                        onClick={() => pushToPinned(tokenObj.token)}
+                                                        _hover={{ color: 'blue.500', cursor: 'pointer' }}
+                                                    >
+                                                        {tokenObj.token}
+                                                    </PseudoBox>
+                                                )}
+                                            )}
+                                        </Container>
+                                        <Box w='100%'>
+                                            <Button primary onClick={() => goBack()} >Back</Button>
+                                        </Box>
+                                    </Flex>
                                 </Flex>
-                                <Flex
-                                    justify='space-between'
-                                    key={index}
-                                    border='1px solid'
-                                    borderRadius={6}
-                                    borderColor='red.500'
-                                >
-                                    <Text color='red.500' pl={4}>
+                                <Container w='100%' rounded>
+                                    <Box color='red.500' pl={4}>
                                         {displayText ? displayText : 'Hover over the transaction'}
-                                    </Text>
-                                </Flex>
-                                {pinnedDescriptons.map((description, index) => {
-                                    return (
-                                        <Flex
-                                        justify='space-between'
-                                        key={index}
-                                        border='1px solid'
-                                        borderRadius={6}
-                                        borderColor={rainbowColors[index + 1]}
-                                        >
-                                            <Text color={rainbowColors[index + 1]} pl={4}>{description}</Text>
-                                            <PseudoBox pr={1} _hover={{ cursor: 'pointer' }}>
-                                                <Icon
-                                                    color={rainbowColors[index + 1]}
-                                                    onClick={() => filterFromPinned(index)}
-                                                    name='close'
-                                                    size='11px'
-                                                    />
-                                            </PseudoBox>
-                                        </Flex>
-                                    )
-                                })}
+                                    </Box>
+                                </Container>
+                                <Stack mt={16} spacing={16} justify='center'>
+                                    {pinnedDescriptons.map((description, index) => {
+                                        return (
+                                            <Box>
+
+                                                <Container width='100%' rounded>
+                                                    <Flex direction='row' justify='space-between'>
+                                                        <Box color={rainbowColors[index + 1]}>{description}</Box>
+                                                        <Button error onClick={() => filterFromPinned(index)}>Close</Button>
+                                                    </Flex>
+                                                </Container>
+                                            </Box>
+                                        )
+                                    })}
+                                </Stack>
                             </Stack>
                         </Box>
                     </Stack>
