@@ -2,7 +2,7 @@
 ETHDenver 2020 Hackathon Project 
 
 ## Purpose
-Why not? 
+To provide an education tool to help new and existing Ethereum users better understand the data and construction of things like xpubs, transactions, and raw tx data - all within a super sweet UI! 
 
 ## Server Instructions
 
@@ -19,6 +19,6 @@ Why not?
     Browse to localhost:3000
 
 ## Team 
-@solipsis
-@peterhendrick
-@ronaldstoner
+@solipsis  
+@peterhendrick  
+@ronaldstoner  

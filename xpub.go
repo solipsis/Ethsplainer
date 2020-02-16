@@ -42,7 +42,7 @@ func tokenizeXPUB(encoded string) ([]token, error) {
 	version := token{
 		Token:       hex.EncodeToString(xpub[0:4]),
 		Title:       "Version",
-		Description: "The verison gives information into what kind of key is encoded.\nThis is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
+		Description: "The version gives information into what kind of key is encoded.\nThis is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
 		FlavorText:  "This is also what gives an XPUB its distinct form (XPUB, LTUB, ZPUB).",
 		Value:       bytesToInt(xpub[0:4]).String(),
 	}
