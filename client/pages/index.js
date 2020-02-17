@@ -273,7 +273,7 @@ const Home = () => {
                                                             <br />
                                                             <Box color={rainbowColors[obj.colorIndex]}>{obj.description}</Box>
                                                         </Flex>
-                                                        <Box mt={-6} mr={2} w={3}>
+                                                        <Box mt={-6} mr={2} w={3} fontSize={[4, 4, 6, 6]}>
                                                             <Button error onClick={() => filterFromPinned(index)}>X</Button>
                                                         </Box>
                                                     </Flex>
