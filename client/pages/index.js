@@ -135,17 +135,17 @@ const Home = () => {
                                     <Image
                                         onClick={() => setVitalik(!vitalik)}
                                         src={vitalik ? '/assets/vitalik.png' : '/assets/pegabufficorn.png'}
-                                        size={64}
+                                        size={[32, 64]}
                                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
                                         />
-                                    <Box pl={4} mb={32} w={32}>
+                                    <Box pl={[1, 2, 3, 4]} mb={[4, 8, 16, 32]} w={[4, 8, 16, 32]}>
                                         <Balloon fromLeft >
                                             <span>What Can I Help You Understand?</span>
                                         </Balloon>
                                     </Box>
                                 </Flex>
                                 <Flex direction='row' align='center'>
-                                    <Box w={700} fontSize='0.75rem'>
+                                    <Box w={[175, 350, 500, 700]} fontSize='0.75rem'>
                                         <TextInput
                                             style={{ height: '2.75rem' }}
                                             width='100%'
@@ -167,7 +167,7 @@ const Home = () => {
                                 </Flex>
                                 <Box>
                                     <Container rounded>
-                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4} fontSize={13}>
+                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4} fontSize={[10, 13]}>
                                             <Box>
                                                 Or click one of the examples below to populate the input.
                                             </Box>
