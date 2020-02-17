@@ -23,14 +23,12 @@ import {
     TextInput
 } from 'nes-react'
 
-
-const App = () => {
-    return (
-        <ThemeProvider>
-            <Home />
-        </ThemeProvider>
-    )
-}
+const responsiveFontSizes = [
+    8,
+    10,
+    12,
+    14
+]
 
 const rainbowColors = {
     0: 'pink.400',
@@ -40,6 +38,14 @@ const rainbowColors = {
     4: 'green.400',
     5: 'blue.400',
     6: 'purple.400',
+}
+
+const App = () => {
+    return (
+        <ThemeProvider>
+            <Home />
+        </ThemeProvider>
+    )
 }
 
 const Home = () => {
@@ -129,7 +135,7 @@ const Home = () => {
             <Container title='EthSplainer 2.0' rounded>
                 <Box pb={10}>
                     <Stack spacing={10} >
-                        <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={16}>
+                        <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={responsiveFontSizes}>
                             <Stack spacing={8} justify='center' align='center'>
                                 <Flex justify='center' ml={-32}>
                                     <Image
@@ -140,12 +146,12 @@ const Home = () => {
                                         />
                                     <Box pl={[1, 2, 3, 4]} mb={[4, 8, 16, 32]} w={[4, 8, 16, 32]}>
                                         <Balloon fromLeft >
-                                            <Box fontSize={[8, 10, 12, 14]}>What Can I Help You Understand?</Box>
+                                            <Box>What Can I Help You Understand?</Box>
                                         </Balloon>
                                     </Box>
                                 </Flex>
                                 <Flex direction='row' align='center'>
-                                    <Box w={[175, 350, 500, 700]} fontSize='0.75rem'>
+                                    <Box w={[175, 350, 500, 700]}>
                                         <TextInput
                                             style={{ height: '2.75rem' }}
                                             width='100%'
@@ -166,7 +172,7 @@ const Home = () => {
                                 </Flex>
                                 <Box>
                                     <Container rounded>
-                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4} fontSize={[10, 13]}>
+                                        <Stack ml={8} justifyContent='center' alignItems='center' spacing={4}>
                                             <Box>
                                                 Or click one of the examples below to populate the input.
                                             </Box>
@@ -191,12 +197,12 @@ const Home = () => {
                                         </Stack>
                                     </Container>
                                 </Box>
-                                <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500' fontSize={12}>
+                                <Flex textAlign='center' d={page === 1 && errorState ? 'inline' : 'none'} w='full' color='red.500'>
                                     {errorText}
                                 </Flex>
                             </Stack>
                         </Flex>
-                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={12} pt={16} pb='17rem'>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={responsiveFontSizes} pt={16} pb='17rem'>
                             <Stack spacing={4}>
                                 <Flex wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
@@ -204,7 +210,6 @@ const Home = () => {
                                             return (
                                                 <PseudoBox
                                                     as='text'
-                                                    fontSize={16}
                                                     key={index}
                                                     font='inherit'
                                                     color={rainbowColors[index % 7]}
@@ -266,7 +271,7 @@ const Home = () => {
                                                             <br />
                                                             <Box color={rainbowColors[obj.colorIndex]}>{obj.description}</Box>
                                                         </Flex>
-                                                        <Box mt={-6} mr={2} w={3} fontSize={8}>
+                                                        <Box mt={-6} mr={2} w={3}>
                                                             <Button error onClick={() => filterFromPinned(index)}>X</Button>
                                                         </Box>
                                                     </Flex>
