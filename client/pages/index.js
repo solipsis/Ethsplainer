@@ -167,7 +167,9 @@ const Home = () => {
                                         onClick={() => getTxDetails(input)}
                                         style={{ marginLeft : 16 }}
                                     >
-                                        Learn
+                                        <Box>
+                                            Learn
+                                        </Box>
                                     </Button>
                                 </Flex>
                                 <Box>
@@ -230,7 +232,7 @@ const Home = () => {
                                         ) : null}
                                     </Container>
                                     <Box w='25%' ml={4}>
-                                        <Button primary onClick={() => goBack()}>Back</Button>
+                                        <Button primary onClick={() => goBack()}><Box>Back</Box></Button>
                                     </Box>
                                 </Flex>
                                 <Box display={displayToken || get(pinnedObjects, 'length', 0) === 0 ? 'block' : 'none'}>
