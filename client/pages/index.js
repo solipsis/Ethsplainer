@@ -140,7 +140,7 @@ const Home = () => {
                                         />
                                     <Box pl={[1, 2, 3, 4]} mb={[4, 8, 16, 32]} w={[4, 8, 16, 32]}>
                                         <Balloon fromLeft >
-                                            <span>What Can I Help You Understand?</span>
+                                            <Box fontSize={[8, 10, 12, 14]}>What Can I Help You Understand?</Box>
                                         </Balloon>
                                     </Box>
                                 </Flex>
@@ -150,8 +150,7 @@ const Home = () => {
                                             style={{ height: '2.75rem' }}
                                             width='100%'
                                             varient='filled'
-                                            placeholder=
-                                            'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
+                                            placeholder='xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
                                             borderRadius={5}
                                             onChange={handleChange}
                                             value={input}
@@ -233,19 +232,21 @@ const Home = () => {
                                     <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Data Field')}>
                                         <Box color='rgb(33, 37, 41);' pl={4}>
                                             {displayToken ? (
-                                                <Box>
+                                                <Box wordBreak='break-all'>
                                                     <Box color={rainbowColors[displayToken.colorIndex]}>
                                                         {displayToken.value}
                                                     </Box>
+                                                    <br />>
                                                     <Box color={rainbowColors[displayToken.colorIndex]}>
                                                         {displayToken.description}
                                                     </Box>
                                                 </Box>
                                             ) : (
-                                                <Box>
+                                                <Box wordBreak='break-all'>
                                                     <Box>
                                                         Hover over a color coded portion of the transaction to learn more.
                                                     </Box>
+                                                    <br />
                                                     <Box>
                                                         Click on a section to pin it's description.
                                                     </Box>
@@ -258,10 +259,11 @@ const Home = () => {
                                     {pinnedObjects.map((obj, index) => {
                                         return (
                                             <Box>
-                                                <Container width='100%' rounded title={obj.title}>
+                                                <Container rounded title={obj.title}>
                                                     <Flex direction='row' justify='space-between'>
-                                                        <Flex direction='column'>
+                                                        <Flex direction='column' wordBreak='break-all'>
                                                             <Box color={rainbowColors[obj.colorIndex]}>{obj.value}</Box>
+                                                            <br />
                                                             <Box color={rainbowColors[obj.colorIndex]}>{obj.description}</Box>
                                                         </Flex>
                                                         <Box mt={-6} mr={2} w={3} fontSize={8}>
