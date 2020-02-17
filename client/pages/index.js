@@ -236,7 +236,7 @@ const Home = () => {
                                                     <Box color={rainbowColors[displayToken.colorIndex]}>
                                                         {displayToken.value}
                                                     </Box>
-                                                    <br />>
+                                                    <br />
                                                     <Box color={rainbowColors[displayToken.colorIndex]}>
                                                         {displayToken.description}
                                                     </Box>
