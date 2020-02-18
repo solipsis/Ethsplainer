@@ -59,11 +59,20 @@ const Home = () => {
     const [errorText, setErrorText] = useState('Sorry, I don\'t understand this format.')
     const [vitalik, setVitalik] = useState(false)
 
+    const handleErrorState = (boolean) => {
+        setErrorState(boolean)
+        setPage(0)
+    }
 
     const handleChange = event => {
-        setErrorState(false)
+        handleErrorState(false)
         setPage(0)
         setInput(event.target.value)
+    }
+
+    const handleSelectExample = (input) => {
+        handleErrorState(false)
+        return setInput(input)
     }
 
     useEffect(() => {
@@ -108,18 +117,21 @@ const Home = () => {
     const getTxDetails = useCallback(async (input) => {
         try {
             if(!input) input = 'xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
+
             //const goResponse = await axios.post('http://localhost:8080', { input })
             const goResponse = await axios.post('https://calm-thicket-60588.herokuapp.com/', { input })
             console.log({ responseData: goResponse.data })
             if (typeof get(goResponse, 'data', null) === 'string') {
-                setErrorState(true)
+                handleErrorState(true)
                 setErrorText('Sorry, I don\'t understand this format.')
             }
-            setResponse(get(goResponse, 'data'))
-            setPage(1)
+            if(!errorState) {
+                setResponse(get(goResponse, 'data'))
+                setPage(1)
+            }
         } catch (err) {
             console.log(`API err: ${err}`)
-            setErrorState(true)
+            handleErrorState(true)
             setErrorText('Something went wrong. I\'m sorry.')
             setResponse(mockResponse)
         }
@@ -154,10 +166,7 @@ const Home = () => {
                                     <Box w={[175, 350, 500, 700]}>
                                         <TextInput
                                             style={{ height: '2.75rem' }}
-                                            width='100%'
-                                            varient='filled'
                                             placeholder='xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz'
-                                            borderRadius={5}
                                             onChange={handleChange}
                                             value={input}
                                         />
@@ -180,19 +189,19 @@ const Home = () => {
                                             </Box>
                                             <PseudoBox
                                                 _hover={{ cursor: 'pointer' }}
-                                                onClick={() => setInput('xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz')}
+                                                onClick={() => handleSelectExample('xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz')}
                                             >
                                                 {'* XPUB: xpub6CUGRUon4TWtTMm...'}
                                             </PseudoBox>
                                             <PseudoBox
                                                 _hover={{ cursor: 'pointer' }}
-                                                onClick={() => setInput('0xf86c2285012a05f2008252089490e9ddd9d8d5ae4e3763d0cf856c97594dea7325884431a977b29170008026a02f92f54ad283f2cc962f22be7d12d6fff8c9ad51b04b8fc6c60a1f791ca4627ea00120aa6101d4207c15c13128fa3162e824d518466027f860d4a4eb534ae68634')}
+                                                onClick={() => handleSelectExample('0xf86c2285012a05f2008252089490e9ddd9d8d5ae4e3763d0cf856c97594dea7325884431a977b29170008026a02f92f54ad283f2cc962f22be7d12d6fff8c9ad51b04b8fc6c60a1f791ca4627ea00120aa6101d4207c15c13128fa3162e824d518466027f860d4a4eb534ae68634')}
                                             >
                                                 {'* Raw Tx Hex: 0xf86c2285012...'}
                                             </PseudoBox>
                                             <PseudoBox
                                                 _hover={{ cursor: 'pointer' }}
-                                                onClick={() => setInput('60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029')}
+                                                onClick={() => handleSelectExample('60806040526018600055348015601457600080fd5b5060358060226000396000f3006080604052600080fd00a165627a7a723058204551648437b45b4433da110519d9c1ca35c91af7cab828e41346248b1d002a660029')}
                                             >
                                                 {'* EVM Opcodes: 0x6080604052...'}
                                             </PseudoBox>
