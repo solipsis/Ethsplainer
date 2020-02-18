@@ -180,9 +180,9 @@ const Home = () => {
                                             </Box>
                                             <PseudoBox
                                                 _hover={{ cursor: 'pointer' }}
-                                                onClick={() => setInput('0xc45367afb97f4e79fe6cccfed0bea22a8c63d6fbd7ec4f85aa2541d05075f8af')}
+                                                onClick={() => setInput('xpub6CUGRUonZSQ4TWtTMmzXdrXDtypWKiKrhko4egpiMZbpiaQL2jkwSB1icqYh2cfDfVxdx4df189oLKnC5fSwqPfgyP3hooxujYzAu3fDVmz')}
                                             >
-                                                {'* Eth Tx Hash: 0xc45367afb9...'}
+                                                {'* XPUB: xpub6CUGRUon4TWtTMm...'}
                                             </PseudoBox>
                                             <PseudoBox
                                                 _hover={{ cursor: 'pointer' }}
