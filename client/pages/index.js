@@ -11,6 +11,7 @@ import {
     Box,
     Flex,
     Image,
+    Link,
     PseudoBox,
     Stack,
     ThemeProvider
@@ -143,10 +144,10 @@ const Home = () => {
     }, [])
 
     return (
-        <Box m={8}>
+        <Box pt={[2]} m={[2, 4, 6, 8]}>
             <Container title='EthSplainer 2.0' rounded>
-                <Box pb={10}>
-                    <Stack spacing={10} >
+                <Box minH={['2xl', 'sm', 'xl', '2xl']}>
+                    <Stack spacing={10}>
                         <Flex d={page === 0 || (page === 1 && errorState) ? 'block' : 'none'} fontSize={responsiveFontSizes}>
                             <Stack spacing={8} justify='center' align='center'>
                                 <Flex justify='center' ml={-32}>
@@ -213,9 +214,41 @@ const Home = () => {
                                 </Flex>
                             </Stack>
                         </Flex>
-                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={responsiveFontSizes} pt={16} pb='17rem'>
+                        <Box d={page === 1 && !errorState ? 'inline' : 'none'} w='full' fontSize={responsiveFontSizes} pt={[2, 4, 6, 8]}>
+                            <Box minH={['2xs', '2xs', '11rem', '11rem']}>
+                                <Container rounded title={get(displayToken, 'title', 'Learn About Eth!')}>
+                                    <Flex direction='row' justify='space-between'>
+                                        <Box color='rgb(33, 37, 41);' pr={[2, 4, 6, 8]}>
+                                            {displayToken ? (
+                                                <Box whiteSpace='pre-wrap'>
+                                                    <Box wordBreak='break-all' color={rainbowColors[displayToken.colorIndex]}>
+                                                        {displayToken.value}
+                                                    </Box>
+                                                    <br />
+                                                    <Box wordBreak='keep-all' color={rainbowColors[displayToken.colorIndex]}>
+                                                        {displayToken.description}
+                                                    </Box>
+                                                </Box>
+                                            ) : (
+                                                <Box whiteSpace='pre-wrap' wordBreak='keep-all'>
+                                                    <Box>
+                                                        Hover over a color coded portion of the transaction to learn more.
+                                                    </Box>
+                                                    <br />
+                                                    <Box>
+                                                        Or click on a section to pin it's description.
+                                                    </Box>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                        <Box minW={['3rem', '4rem', '6rem', '7rem']}>
+                                            <Button primary onClick={() => goBack()}><Box>Back</Box></Button>
+                                        </Box>
+                                    </Flex>
+                                </Container>
+                            </Box>
                             <Stack spacing={4}>
-                                <Flex wordBreak='break-all' justify='space-between'>
+                                <Flex whiteSpace='pre-wrap' wordBreak='break-all' justify='space-between'>
                                     <Container title={inputType ? inputType : ''} rounded>
                                         {response ? map(response, (tokenObj, index) => {
                                             return (
@@ -240,49 +273,19 @@ const Home = () => {
                                             )}
                                         ) : null}
                                     </Container>
-                                    <Box w='25%' ml={4}>
-                                        <Button primary onClick={() => goBack()}><Box>Back</Box></Button>
-                                    </Box>
                                 </Flex>
-                                <Box display={displayToken || get(pinnedObjects, 'length', 0) === 0 ? 'block' : 'none'}>
-                                    <Container w='100%' rounded title={get(displayToken, 'title', 'Hover Over Data Field')}>
-                                        <Box color='rgb(33, 37, 41);' pl={4}>
-                                            {displayToken ? (
-                                                <Box wordBreak='break-all'>
-                                                    <Box color={rainbowColors[displayToken.colorIndex]}>
-                                                        {displayToken.value}
-                                                    </Box>
-                                                    <br />
-                                                    <Box color={rainbowColors[displayToken.colorIndex]}>
-                                                        {displayToken.description}
-                                                    </Box>
-                                                </Box>
-                                            ) : (
-                                                <Box wordBreak='break-all'>
-                                                    <Box>
-                                                        Hover over a color coded portion of the transaction to learn more.
-                                                    </Box>
-                                                    <br />
-                                                    <Box>
-                                                        Click on a section to pin it's description.
-                                                    </Box>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    </Container>
-                                </Box>
                                 <Stack spacing={4} justify='center'>
                                     {pinnedObjects.map((obj, index) => {
                                         return (
                                             <Box>
                                                 <Container rounded title={obj.title}>
                                                     <Flex direction='row' justify='space-between'>
-                                                        <Flex direction='column' wordBreak='break-all'>
-                                                            <Box color={rainbowColors[obj.colorIndex]}>{obj.value}</Box>
+                                                        <Flex direction='column' whiteSpace='pre-wrap'>
+                                                            <Box wordBreak='break-all' color={rainbowColors[obj.colorIndex]}>{obj.value}</Box>
                                                             <br />
                                                             <Box color={rainbowColors[obj.colorIndex]}>{obj.description}</Box>
                                                         </Flex>
-                                                        <Box mt={-6} mr={2} w={3} fontSize={[4, 4, 6, 6]}>
+                                                        <Box mt={-6} mr={4} w={3} fontSize={[6, 8, 10, 12]}>
                                                             <Button error onClick={() => filterFromPinned(index)}>X</Button>
                                                         </Box>
                                                     </Flex>
@@ -294,6 +297,9 @@ const Home = () => {
                             </Stack>
                         </Box>
                     </Stack>
+                </Box>
+                <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
+                    See the code: <Link href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
                 </Box>
             </Container>
             <link
