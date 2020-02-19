@@ -16,7 +16,6 @@ import {
     Stack,
     ThemeProvider
 } from '@chakra-ui/core'
-import mockResponse from '../mock/response.json'
 import {
     Button,
     Balloon,
@@ -134,7 +133,6 @@ const Home = () => {
             console.log(`API err: ${err}`)
             handleErrorState(true)
             setErrorText('Something went wrong. I\'m sorry.')
-            setResponse(mockResponse)
         }
     }, [input])
 
@@ -299,7 +297,7 @@ const Home = () => {
                     </Stack>
                 </Box>
                 <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
-                    See the code: <Link href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
+                    See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
                 </Box>
             </Container>
             <link
