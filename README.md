@@ -15,7 +15,7 @@ To provide an education tool to help new and existing Ethereum users better unde
 
     git clone [repo]
     go build
-    ./Ethsplainer
+    ./ethdenver2020
 
 ## Client Instructions
 
