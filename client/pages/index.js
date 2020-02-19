@@ -234,7 +234,7 @@ const Home = () => {
                                                     </Box>
                                                     <br />
                                                     <Box>
-                                                        Or click on a section to pin it's description.
+                                                        Or click on a section to pin its description.
                                                     </Box>
                                                 </Box>
                                             )}
