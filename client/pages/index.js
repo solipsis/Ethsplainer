@@ -154,7 +154,7 @@ const Home = () => {
                                         src={vitalik ? '/assets/vitalik.png' : '/assets/pegabufficorn.png'}
                                         size={[32, 64]}
                                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
-                                        />
+                                    />
                                     <Box pl={[1, 2, 3, 4]} mb={[4, 8, 16, 32]} w={[4, 8, 16, 32]}>
                                         <Balloon fromLeft >
                                             <Box>What Can I Help You Understand?</Box>
