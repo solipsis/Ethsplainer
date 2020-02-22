@@ -305,6 +305,8 @@ const Home = () => {
                 rel="stylesheet"
             />
             <title>EthSplainer 2.0</title>
+            <meta name="description" content="An education tool to help new and existing Ethereum users better understand the data and construction of things like xpubs, transactions, and raw transaction data - all within a super sweet UI!"/>
+            <meta name="keywords" content="Ethereum, EthSplainer, eth, erc20, erc-20, xpub, xpubs, raw transaction data, raw tx, educational tool, cryptocurrency, blockchain" />
         </Box>
     )
 }
