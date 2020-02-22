@@ -297,13 +297,9 @@ const Home = () => {
                         </Box>
                     </Stack>
                 </Box>
-                <Stack spacing={4} justify='center'>
-                    <Flex direction='row' whiteSpace='pre-wrap' wordBreak='break-all' justify='space-between'>
-                        <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
-                            See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
-                        </Box>
-                    </Flex>
-                </Stack>
+                <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
+                    See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
+                </Box>
             </Container>
             <link
                 href="https://fonts.googleapis.com/css?family=Press+Start+2P"
