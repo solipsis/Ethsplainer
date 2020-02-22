@@ -154,6 +154,7 @@ const Home = () => {
                                         src={vitalik ? '/assets/vitalik.png' : '/assets/pegabufficorn.png'}
                                         size={[32, 64]}
                                         fallbackSrc='https://www.ethdenver.com/wp-content/themes/understrap/img/pegabufficorn.png'
+                                        alt=''
                                     />
                                     <Box pl={[1, 2, 3, 4]} mb={[4, 8, 16, 32]} w={[4, 8, 16, 32]}>
                                         <Balloon fromLeft >
@@ -296,9 +297,13 @@ const Home = () => {
                         </Box>
                     </Stack>
                 </Box>
-                <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
-                    See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
-                </Box>
+                <Stack spacing={4} justify='center'>
+                    <Flex direction='row' whiteSpace='pre-wrap' wordBreak='break-all' justify='space-between'>
+                        <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
+                            See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
+                        </Box>
+                    </Flex>
+                </Stack>
             </Container>
             <link
                 href="https://fonts.googleapis.com/css?family=Press+Start+2P"
