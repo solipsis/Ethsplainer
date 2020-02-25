@@ -1,5 +1,5 @@
 # Ethsplainer 2.0
-ETHDenver 2020 Hackathon Project 
+ETHDenver 2020 Hackathon Project
 
 ## Purpose
 To provide an education tool to help new and existing Ethereum users better understand the data and construction of things like xpubs, transactions, and raw tx data - all within a super sweet UI! 
@@ -9,6 +9,14 @@ To provide an education tool to help new and existing Ethereum users better unde
 ---
 
 ![i2](/images/splain1.png)
+
+## Next Steps
+This project was built in a 36 hour hackathon and has many aspects that can be improved. Some planned upgrades are 
+* Better educational descriptions for existing parsers
+* RPC based parser plugins so parsers can be written in any language
+* Additional parsers (Bitcoin Scripts / Bitcoin Tx / Generic RLP / etc.)
+* Support for multiple parsers on a single input
+* Better support for very large payload bodies
 
 
 ## Server Instructions
@@ -29,3 +37,6 @@ To provide an education tool to help new and existing Ethereum users better unde
 @solipsis  
 @peterhendrick  
 @ronaldstoner  
+
+## Contributing
+Please do :) 
