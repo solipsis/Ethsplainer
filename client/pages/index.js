@@ -299,7 +299,12 @@ const Home = () => {
                 </Box>
                 <Flex align='center' justify='center' textAlign='center'>
                     <Box fontSize={responsiveFontSizes} m={[2, 4, 6, 8]} whiteSpace='pre-wrap' wordBreak='break-all'>
-                        See the code: <Link isExternal href='https://github.com/solipsis/ethsplainer'>https://github.com/solipsis/ethsplainer</Link>
+                        <Link isExternal href='https://github.com/solipsis/ethsplainer'><i class='nes-icon github is-medium'></i>
+                            <br/>
+                        </Link>
+                            See the code on <Link isExternal href='https://github.com/solipsis/ethsplainer'>
+                            GitHub
+                        </Link>
                     </Box>
                 </Flex>
             </Container>
