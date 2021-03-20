@@ -12,7 +12,7 @@
     "@chakra-ui/core": "^0.5.2",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "emotion-theming": "^10.0.27",
     "lodash": "^4.17.19",
     "nes-react": "^1.0.2",
