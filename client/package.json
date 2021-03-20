@@ -14,7 +14,7 @@
     "@emotion/styled": "^10.0.27",
     "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "nes-react": "^1.0.2",
     "next": "9.3.2",
     "react": "16.12.0",
