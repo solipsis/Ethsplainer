@@ -1,0 +1,30 @@
+[Unit]
+Description=Ethsplainer Web Front End Client
+After=hostname-register.service
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/ubuntu/Ethsplainer/client
+
+ExecStart=/usr/bin/yarn start -p 80
+Type=simple
+Restart=always
+RestartSec=2
+KillMode=process
+
+# Logging
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ethsplainer-client
+SyslogLevel=info
+
+# Sandboxing
+ProtectSystem=strict
+PrivateDevices=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+ReadWritePaths=/home/ubuntu/Ethsplainer/client
+
+[Install]
+WantedBy=multi-user.target
