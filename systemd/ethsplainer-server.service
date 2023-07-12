@@ -1,0 +1,19 @@
+[Unit]
+Description=Ethsplainer Backend Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ubuntu/Ethsplainer
+ExecStart=/home/ubuntu/Ethsplainer/start_server
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ethsplainer-server
+User=ubuntu
+Group=ubuntu
+Environment=PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/home/ubuntu/Ethsplainer
+
+[Install]
+WantedBy=multi-user.target
