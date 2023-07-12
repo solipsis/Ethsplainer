@@ -1,5 +1,5 @@
 # Ethsplainer 2.0
-ETHDenver 2020 Hackathon Project
+Originall an ETHDenver 2020 Hackathon Project and Finalist
 
 ## Purpose
 To provide an education tool to help new and existing Ethereum users better understand the data and construction of things like xpubs, transactions, and raw tx data - all within a super sweet UI! 
@@ -23,7 +23,7 @@ This project was built in a 36 hour hackathon and has many aspects that can be i
 
     git clone [repo]
     go build
-    ./ethdenver2020
+    ./start_server
 
 ## Client Instructions
 
