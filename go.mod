@@ -1,4 +1,4 @@
-module github.com/solipsis/ethdenver2020
+module github.com/solipsis/start_server
 
 go 1.13
 

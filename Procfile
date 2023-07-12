@@ -1,1 +1,1 @@
-web: bin/ethdenver2020
+web: bin/start_server
